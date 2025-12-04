@@ -1,0 +1,127 @@
+@model ErrorLogDashboard.Web.Models.Project
+@{
+    ViewData["Title"] = "Project Created";
+    Layout = "_DashboardLayout";
+}
+
+<div class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-3xl w-full">
+        <!-- Success Message -->
+        <div class="text-center mb-8">
+            <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-green-100 mb-4">
+                <svg class="h-10 w-10 text-green-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+            </div>
+            <h2 class="text-3xl font-extrabold text-gray-900">
+                Project created successfully!
+            </h2>
+            <p class="mt-2 text-lg text-gray-600">
+                @Model.Name is ready to receive error logs
+            </p>
+        </div>
+
+        <!-- Project Details Card -->
+        <div class="bg-white shadow-xl rounded-lg overflow-hidden mb-6">
+            <div class="px-6 py-8 space-y-6">
+                
+                <!-- Project Name -->
+                <div>
+                    <h3 class="text-sm font-medium text-gray-500 mb-2">Project Name</h3>
+                    <p class="text-lg font-semibold text-gray-900">@Model.Name</p>
+                </div>
+
+                <div class="border-t border-gray-200"></div>
+
+                <!-- API Key -->
+                <div>
+                    <div class="flex items-center justify-between mb-2">
+                        <h3 class="text-sm font-medium text-gray-500">API Key</h3>
+                        <button onclick="copyToClipboard('@Model.ApiKey', 'apiKeyCopied')" class="text-indigo-600 hover:text-indigo-900 text-sm font-medium">
+                            <span id="apiKeyCopied" class="hidden text-green-600">✓ Copied!</span>
+                            <span id="apiKeyCopy">Copy</span>
+                        </button>
+                    </div>
+                    <code class="block bg-gray-50 p-3 rounded border border-gray-200 text-sm break-all font-mono">@Model.ApiKey</code>
+                    <p class="mt-2 text-xs text-gray-500">Use this to authenticate API requests</p>
+                </div>
+
+                <!-- Security Key -->
+                <div>
+                    <div class="flex items-center justify-between mb-2">
+                        <h3 class="text-sm font-medium text-gray-500">Security Key</h3>
+                        <button onclick="copyToClipboard('@Model.SecurityKey', 'securityKeyCopied')" class="text-indigo-600 hover:text-indigo-900 text-sm font-medium">
+                            <span id="securityKeyCopied" class="hidden text-green-600">✓ Copied!</span>
+                            <span id="securityKeyCopy">Copy</span>
+                        </button>
+                    </div>
+                    <code class="block bg-gray-50 p-3 rounded border border-gray-200 text-sm break-all font-mono">@Model.SecurityKey</code>
+                    <p class="mt-2 text-xs text-gray-500">Include this in the X-Security-Key header</p>
+                </div>
+
+                <!-- Webhook URL -->
+                <div>
+                    <div class="flex items-center justify-between mb-2">
+                        <h3 class="text-sm font-medium text-gray-500">Webhook URL</h3>
+                        <button onclick="copyToClipboard('@Context.Request.Scheme://@Context.Request.Host/api/ingest/@Model.ApiKey', 'webhookCopied')" class="text-indigo-600 hover:text-indigo-900 text-sm font-medium">
+                            <span id="webhookCopied" class="hidden text-green-600">✓ Copied!</span>
+                            <span id="webhookCopy">Copy</span>
+                        </button>
+                    </div>
+                    <code class="block bg-gray-50 p-3 rounded border border-gray-200 text-sm break-all font-mono">@Context.Request.Scheme://@Context.Request.Host/api/ingest/@Model.ApiKey</code>
+                    <p class="mt-2 text-xs text-gray-500">POST your error logs to this endpoint</p>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Example Code -->
+        <div class="bg-gray-800 shadow-xl rounded-lg overflow-hidden mb-6">
+            <div class="px-6 py-4 bg-gray-900">
+                <h3 class="text-sm font-medium text-gray-300">Quick Start Example</h3>
+            </div>
+            <div class="px-6 py-4">
+                <pre class="text-sm text-gray-300 overflow-x-auto"><code>curl -X POST @Context.Request.Scheme://@Context.Request.Host/api/ingest/@Model.ApiKey \
+  -H "Content-Type: application/json" \
+  -H "X-Security-Key: @Model.SecurityKey" \
+  -d '{
+    "message": "Test error",
+    "stackTrace": "at MyApp.Program.Main()"
+  }'</code></pre>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex flex-col sm:flex-row gap-4">
+            <a asp-action="Index" class="flex-1 inline-flex justify-center items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 shadow-sm">
+                <svg class="mr-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                </svg>
+                Go to Dashboard
+            </a>
+            <a asp-action="ViewLogs" asp-route-id="@Model.IdProject" class="flex-1 inline-flex justify-center items-center px-6 py-3 border border-gray-300 text-base font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 shadow-sm">
+                <svg class="mr-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                View Logs
+            </a>
+        </div>
+    </div>
+</div>
+
+<script>
+    function copyToClipboard(text, copiedId) {
+        navigator.clipboard.writeText(text).then(function() {
+            const copiedSpan = document.getElementById(copiedId);
+            const copySpan = document.getElementById(copiedId.replace('Copied', 'Copy'));
+            
+            copiedSpan.classList.remove('hidden');
+            copySpan.classList.add('hidden');
+            
+            setTimeout(function() {
+                copiedSpan.classList.add('hidden');
+                copySpan.classList.remove('hidden');
+            }, 2000);
+        });
+    }
+</script>

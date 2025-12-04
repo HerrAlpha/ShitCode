@@ -1,0 +1,172 @@
+@{
+    ViewData["Title"] = "Create Project";
+    Layout = "_DashboardLayout";
+}
+
+<!-- Loading Overlay -->
+<div id="loadingOverlay" class="hidden fixed inset-0 bg-gray-900 bg-opacity-75 z-50 flex items-center justify-center">
+    <div class="bg-white rounded-lg p-8 max-w-sm w-full mx-4">
+        <div class="flex flex-col items-center">
+            <div class="relative">
+                <div class="w-16 h-16 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin"></div>
+            </div>
+            <h3 class="mt-6 text-lg font-medium text-gray-900">Creating your project...</h3>
+            <p class="mt-2 text-sm text-gray-500 text-center">Setting up your error tracking workspace</p>
+        </div>
+    </div>
+</div>
+
+<div class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-2xl w-full space-y-8">
+        <div>
+            <h2 class="text-center text-3xl font-extrabold text-gray-900">
+                Create a new project
+            </h2>
+            <p class="mt-2 text-center text-sm text-gray-600">
+                Set up error tracking for your application
+            </p>
+        </div>
+
+        <div class="bg-white shadow-xl rounded-lg overflow-hidden">
+            <form id="createProjectForm" asp-action="CreateProject" method="post" class="space-y-6 p-8">
+                <div>
+                    <label for="name" class="block text-sm font-medium text-gray-700 mb-2">
+                        Project name
+                    </label>
+                    <input 
+                        id="name" 
+                        name="name" 
+                        type="text" 
+                        required 
+                        class="appearance-none block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-lg"
+                        placeholder="My Awesome App"
+                        autocomplete="off"
+                        oninput="generateProjectId()">
+                    <p class="mt-2 text-sm text-gray-500">
+                        A friendly name to identify your project
+                    </p>
+                </div>
+
+                <!-- Project ID Preview -->
+                <div id="projectIdPreview" class="hidden">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                        Project ID
+                    </label>
+                    <div class="flex items-center bg-gray-50 px-4 py-3 rounded-md border border-gray-200">
+                        <code id="projectId" class="text-lg font-mono text-indigo-600">my-awesome-app</code>
+                    </div>
+                    <p class="mt-2 text-sm text-gray-500">
+                        This will be used to identify your project in the API
+                    </p>
+                </div>
+
+                <div>
+                    <label for="techStack" class="block text-sm font-medium text-gray-700 mb-2">
+                        Technology Stack
+                    </label>
+                    <select 
+                        id="techStack" 
+                        name="techStack" 
+                        required
+                        class="appearance-none block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-lg">
+                        <option value="">Select a technology...</option>
+                        <option value=".NET">.NET / C#</option>
+                        <option value="Node.js">Node.js / JavaScript</option>
+                        <option value="Python">Python</option>
+                        <option value="PHP">PHP</option>
+                        <option value="Go">Go</option>
+                        <option value="Java">Java</option>
+                        <option value="Ruby">Ruby</option>
+                        <option value="Other">Other</option>
+                    </select>
+                    <p class="mt-2 text-sm text-gray-500">
+                        Choose your primary programming language or framework
+                    </p>
+                </div>
+
+                <div class="bg-blue-50 border-l-4 border-blue-400 p-4">
+                    <div class="flex">
+                        <div class="flex-shrink-0">
+                            <svg class="h-5 w-5 text-blue-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                        <div class="ml-3">
+                            <p class="text-sm text-blue-700">
+                                After creating your project, you'll receive an API key and webhook URL to integrate with your application.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between pt-4">
+                    <a asp-action="Index" class="text-sm font-medium text-gray-600 hover:text-gray-900">
+                        Cancel
+                    </a>
+                    <button 
+                        type="submit" 
+                        id="submitBtn"
+                        class="inline-flex justify-center py-3 px-6 border border-transparent shadow-sm text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-200">
+                        Create Project
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Auto-focus the name input
+    document.getElementById('name').focus();
+
+    // Generate project ID preview
+    function generateProjectId() {
+        const nameInput = document.getElementById('name');
+        const projectIdElement = document.getElementById('projectId');
+        const projectIdPreview = document.getElementById('projectIdPreview');
+        
+        const projectId = nameInput.value
+            .toLowerCase()
+            .trim()
+            .replace(/[^a-z0-9\s-]/g, '') // Remove special characters
+            .replace(/\s+/g, '-')          // Replace spaces with hyphens
+            .replace(/-+/g, '-')           // Replace multiple hyphens with single
+            .replace(/^-|-$/g, '');        // Remove leading/trailing hyphens
+        
+        if (projectId) {
+            projectIdElement.textContent = projectId;
+            projectIdPreview.classList.remove('hidden');
+        } else {
+            projectIdPreview.classList.add('hidden');
+        }
+    }
+
+    // Show loading overlay on form submit
+    document.getElementById('createProjectForm').addEventListener('submit', function(e) {
+        const submitBtn = document.getElementById('submitBtn');
+        const loadingOverlay = document.getElementById('loadingOverlay');
+        
+        // Disable submit button
+        submitBtn.disabled = true;
+        submitBtn.classList.add('opacity-50', 'cursor-not-allowed');
+        
+        // Show loading overlay
+        loadingOverlay.classList.remove('hidden');
+        
+        // Add fade-in animation
+        setTimeout(() => {
+            loadingOverlay.classList.add('animate-fadeIn');
+        }, 10);
+    });
+</script>
+
+<style>
+    @@keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+    
+    .animate-fadeIn {
+        animation: fadeIn 0.3s ease-in-out;
+    }
+</style>

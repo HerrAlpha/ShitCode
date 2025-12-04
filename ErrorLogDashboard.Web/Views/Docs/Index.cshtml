@@ -1,0 +1,136 @@
+@{
+    ViewData["Title"] = "Documentation";
+}
+
+<div class="bg-white">
+    <div class="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:px-8">
+        <div class="text-center">
+            <h1 class="text-4xl font-extrabold text-gray-900 sm:text-5xl">
+                Documentation
+            </h1>
+            <p class="mt-4 text-xl text-gray-600">
+                Everything you need to integrate error tracking into your application
+            </p>
+        </div>
+
+        <div class="mt-16 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+            <!-- Quick Start -->
+            <a asp-action="QuickStart" class="block p-6 bg-white border border-gray-200 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+                <div class="flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white mb-4">
+                    <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                </div>
+                <h3 class="text-lg font-semibold text-gray-900 mb-2">Quick Start</h3>
+                <p class="text-gray-600">Get up and running in under 5 minutes</p>
+            </a>
+
+            <!-- .NET -->
+            <a asp-action="DotNet" class="block p-6 bg-white border border-gray-200 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+                <div class="flex items-center justify-center h-12 w-12 rounded-md bg-purple-500 text-white mb-4">
+                    <span class="font-bold text-lg">.NET</span>
+                </div>
+                <h3 class="text-lg font-semibold text-gray-900 mb-2">.NET / C#</h3>
+                <p class="text-gray-600">Integration guide for .NET applications</p>
+            </a>
+
+            <!-- Node.js -->
+            <a asp-action="NodeJs" class="block p-6 bg-white border border-gray-200 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+                <div class="flex items-center justify-center h-12 w-12 rounded-md bg-green-600 text-white mb-4">
+                    <span class="font-bold text-lg">Node</span>
+                </div>
+                <h3 class="text-lg font-semibold text-gray-900 mb-2">Node.js</h3>
+                <p class="text-gray-600">Integration guide for Node.js applications</p>
+            </a>
+
+            <!-- Python -->
+            <a asp-action="Python" class="block p-6 bg-white border border-gray-200 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+                <div class="flex items-center justify-center h-12 w-12 rounded-md bg-blue-500 text-white mb-4">
+                    <span class="font-bold text-lg">Py</span>
+                </div>
+                <h3 class="text-lg font-semibold text-gray-900 mb-2">Python</h3>
+                <p class="text-gray-600">Integration guide for Python applications</p>
+            </a>
+
+            <!-- PHP -->
+            <a asp-action="PHP" class="block p-6 bg-white border border-gray-200 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+                <div class="flex items-center justify-center h-12 w-12 rounded-md bg-indigo-600 text-white mb-4">
+                    <span class="font-bold text-lg">PHP</span>
+                </div>
+                <h3 class="text-lg font-semibold text-gray-900 mb-2">PHP</h3>
+                <p class="text-gray-600">Integration guide for PHP applications</p>
+            </a>
+
+            <!-- Go -->
+            <a asp-action="Go" class="block p-6 bg-white border border-gray-200 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+                <div class="flex items-center justify-center h-12 w-12 rounded-md bg-cyan-500 text-white mb-4">
+                    <span class="font-bold text-lg">Go</span>
+                </div>
+                <h3 class="text-lg font-semibold text-gray-900 mb-2">Go</h3>
+                <p class="text-gray-600">Integration guide for Go applications</p>
+            </a>
+
+            <!-- Java -->
+            <a asp-action="Java" class="block p-6 bg-white border border-gray-200 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+                <div class="flex items-center justify-center h-12 w-12 rounded-md bg-red-600 text-white mb-4">
+                    <span class="font-bold text-lg">Java</span>
+                </div>
+                <h3 class="text-lg font-semibold text-gray-900 mb-2">Java</h3>
+                <p class="text-gray-600">Integration guide for Java applications</p>
+            </a>
+
+            <!-- Ruby -->
+            <a asp-action="Ruby" class="block p-6 bg-white border border-gray-200 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+                <div class="flex items-center justify-center h-12 w-12 rounded-md bg-red-500 text-white mb-4">
+                    <span class="font-bold text-lg">Ruby</span>
+                </div>
+                <h3 class="text-lg font-semibold text-gray-900 mb-2">Ruby</h3>
+                <p class="text-gray-600">Integration guide for Ruby applications</p>
+            </a>
+        </div>
+
+        <!-- Introduction Section -->
+        <div class="mt-16 prose prose-indigo max-w-none">
+            <h2>Introduction</h2>
+            <p class="lead">
+                ErrorLogDashboard is a powerful, real-time error tracking platform designed to help developers monitor and debug their applications efficiently.
+            </p>
+
+            <h3>Key Features</h3>
+            <ul>
+                <li><strong>Real-time Error Tracking</strong> - Errors appear in your dashboard instantly</li>
+                <li><strong>Multi-Language Support</strong> - Works with any programming language or framework</li>
+                <li><strong>Secure API</strong> - Protected with API keys and security headers</li>
+                <li><strong>Stack Traces</strong> - Full stack trace capture for easy debugging</li>
+                <li><strong>Team Collaboration</strong> - Share dashboards with your team</li>
+                <li><strong>Flexible Plans</strong> - From free tier to enterprise solutions</li>
+            </ul>
+
+            <h3>How It Works</h3>
+            <ol>
+                <li><strong>Create a Project</strong> - Set up a new project in your dashboard</li>
+                <li><strong>Get Your Keys</strong> - Receive an API key and security key</li>
+                <li><strong>Integrate</strong> - Add a few lines of code to your application</li>
+                <li><strong>Monitor</strong> - Watch errors appear in real-time on your dashboard</li>
+            </ol>
+
+            <h3>API Overview</h3>
+            <p>
+                Our API is simple and RESTful. All errors are sent via HTTP POST to your unique webhook URL.
+                Each request must include your security key in the <code>X-Security-Key</code> header.
+            </p>
+
+            <div class="bg-gray-50 p-4 rounded-md">
+                <p class="text-sm font-semibold text-gray-700 mb-2">Example Request</p>
+                <pre class="text-sm"><code>POST https://your-domain.com/api/ingest/{your-api-key}
+Content-Type: application/json
+X-Security-Key: {your-security-key}
+
+{
+  "message": "An error occurred",
+  "stackTrace": "at MyApp.Program.Main() in Program.cs:line 42"
+}</code></pre>
+            </div>
+        </div>
+    </div>
+</div>

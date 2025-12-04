@@ -1,0 +1,186 @@
+@{
+    ViewData["Title"] = "PHP Integration - Documentation";
+}
+
+<div class="bg-white">
+    <div class="max-w-4xl mx-auto py-16 px-4 sm:px-6 lg:px-8">
+        <nav class="mb-8">
+            <a asp-action="Index" class="text-indigo-600 hover:text-indigo-900">← Back to Docs</a>
+        </nav>
+
+        <h1 class="text-4xl font-extrabold text-gray-900 mb-4">PHP Integration</h1>
+        <p class="text-xl text-gray-600 mb-8">Integrate error tracking into your PHP applications</p>
+
+        <div class="prose prose-indigo max-w-none">
+            <h2>Laravel Integration</h2>
+            
+            <h3>1. Create Error Logger Class</h3>
+            <div class="bg-gray-900 rounded-lg p-4 my-4">
+                <pre class="text-sm text-gray-100 overflow-x-auto"><code>&lt;?php
+// app/Services/ErrorLogService.php
+
+namespace App\Services;
+
+use Illuminate\Support\Facades\Http;
+
+class ErrorLogService
+{
+    private $apiKey;
+    private $securityKey;
+    private $webhookUrl;
+
+    public function __construct()
+    {
+        $this-&gt;apiKey = env('ERROR_LOG_API_KEY', 'YOUR_API_KEY');
+        $this-&gt;securityKey = env('ERROR_LOG_SECURITY_KEY', 'YOUR_SECURITY_KEY');
+        $this-&gt;webhookUrl = "https://your-domain.com/api/ingest/{$this-&gt;apiKey}";
+    }
+
+    public function logError(\Throwable $exception, array $context = [])
+    {
+        try {
+            Http::withHeaders([
+                'X-Security-Key' =&gt; $this-&gt;securityKey,
+            ])-&gt;post($this-&gt;webhookUrl, [
+                'message' =&gt; $exception-&gt;getMessage(),
+                'stackTrace' =&gt; $exception-&gt;getTraceAsString(),
+                'file' =&gt; $exception-&gt;getFile(),
+                'line' =&gt; $exception-&gt;getLine(),
+                'context' =&gt; $context,
+            ]);
+        } catch (\Exception $e) {
+            // Silently fail
+            \Log::error('Failed to log error: ' . $e-&gt;getMessage());
+        }
+    }
+}</code></pre>
+            </div>
+
+            <h3>2. Register in Handler</h3>
+            <div class="bg-gray-900 rounded-lg p-4 my-4">
+                <pre class="text-sm text-gray-100 overflow-x-auto"><code>&lt;?php
+// app/Exceptions/Handler.php
+
+namespace App\Exceptions;
+
+use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use App\Services\ErrorLogService;
+use Throwable;
+
+class Handler extends ExceptionHandler
+{
+    public function report(Throwable $exception)
+    {
+        if ($this-&gt;shouldReport($exception)) {
+            $errorLogger = app(ErrorLogService::class);
+            $errorLogger-&gt;logError($exception, [
+                'url' =&gt; request()-&gt;fullUrl(),
+                'method' =&gt; request()-&gt;method(),
+                'ip' =&gt; request()-&gt;ip(),
+            ]);
+        }
+
+        parent::report($exception);
+    }
+}</code></pre>
+            </div>
+
+            <h3>3. Add to .env</h3>
+            <div class="bg-gray-900 rounded-lg p-4 my-4">
+                <pre class="text-sm text-gray-100 overflow-x-auto"><code>ERROR_LOG_API_KEY=your_api_key_here
+ERROR_LOG_SECURITY_KEY=your_security_key_here</code></pre>
+            </div>
+
+            <h2>Pure PHP Integration</h2>
+            <div class="bg-gray-900 rounded-lg p-4 my-4">
+                <pre class="text-sm text-gray-100 overflow-x-auto"><code>&lt;?php
+// error_logger.php
+
+function logError($exception, $context = []) {
+    $apiKey = getenv('ERROR_LOG_API_KEY') ?: 'YOUR_API_KEY';
+    $securityKey = getenv('ERROR_LOG_SECURITY_KEY') ?: 'YOUR_SECURITY_KEY';
+    $webhookUrl = "https://your-domain.com/api/ingest/$apiKey";
+
+    $payload = json_encode([
+        'message' =&gt; $exception-&gt;getMessage(),
+        'stackTrace' =&gt; $exception-&gt;getTraceAsString(),
+        'file' =&gt; $exception-&gt;getFile(),
+        'line' =&gt; $exception-&gt;getLine(),
+        'context' =&gt; $context,
+    ]);
+
+    $ch = curl_init($webhookUrl);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+        'Content-Type: application/json',
+        "X-Security-Key: $securityKey",
+    ]);
+    
+    curl_exec($ch);
+    curl_close($ch);
+}
+
+// Set global error handler
+set_exception_handler(function($exception) {
+    logError($exception, [
+        'url' =&gt; $_SERVER['REQUEST_URI'] ?? '',
+        'method' =&gt; $_SERVER['REQUEST_METHOD'] ?? '',
+    ]);
+    
+    // Display user-friendly error
+    http_response_code(500);
+    echo "An error occurred. Please try again later.";
+});
+
+// Usage in your code:
+try {
+    // Your code
+} catch (Exception $e) {
+    logError($e, ['action' =&gt; 'user_registration']);
+    // Handle error
+}</code></pre>
+            </div>
+
+            <h2>WordPress Integration</h2>
+            <div class="bg-gray-900 rounded-lg p-4 my-4">
+                <pre class="text-sm text-gray-100 overflow-x-auto"><code>&lt;?php
+// wp-content/mu-plugins/error-logger.php
+
+add_action('wp_loaded', function() {
+    set_exception_handler(function($exception) {
+        $apiKey = get_option('error_log_api_key');
+        $securityKey = get_option('error_log_security_key');
+        
+        if (!$apiKey || !$securityKey) {
+            return;
+        }
+
+        wp_remote_post("https://your-domain.com/api/ingest/$apiKey", [
+            'headers' =&gt; [
+                'X-Security-Key' =&gt; $securityKey,
+            ],
+            'body' =&gt; json_encode([
+                'message' =&gt; $exception-&gt;getMessage(),
+                'stackTrace' =&gt; $exception-&gt;getTraceAsString(),
+            ]),
+        ]);
+    });
+});</code></pre>
+            </div>
+
+            <div class="bg-green-50 border-l-4 border-green-400 p-4 my-6">
+                <div class="flex">
+                    <svg class="h-5 w-5 text-green-400 mt-0.5 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                    </svg>
+                    <div>
+                        <p class="text-sm font-semibold text-green-700">Tip</p>
+                        <p class="text-sm text-green-700">Laravel makes integration easiest with built-in HTTP client and exception handling!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,396 @@
+﻿@{
+    ViewData["Title"] = "Home";
+}
+
+<!-- Hero Section -->
+<div class="relative bg-white overflow-hidden">
+    <div class="max-w-7xl mx-auto">
+        <div class="relative z-10 pb-8 bg-white sm:pb-16 md:pb-20 lg:max-w-2xl lg:w-full lg:pb-28 xl:pb-32">
+            <svg class="hidden lg:block absolute right-0 inset-y-0 h-full w-48 text-white transform translate-x-1/2" fill="currentColor" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+                <polygon points="50,0 100,0 50,100 0,100" />
+            </svg>
+
+            <main class="mt-10 mx-auto max-w-7xl px-4 sm:mt-12 sm:px-6 md:mt-16 lg:mt-20 lg:px-8 xl:mt-28">
+                <div class="sm:text-center lg:text-left">
+                    <h1 class="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
+                        <span class="block xl:inline">Monitor your apps with</span>
+                        <span class="block text-indigo-600 xl:inline">precision & style</span>
+                    </h1>
+                    <p class="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
+                        The ultimate error tracking solution for developers. Real-time monitoring, secure ingestion, and a beautiful dashboard to keep your applications healthy, regardless of your tech stack.
+                    </p>
+                    <div class="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
+                        <div class="rounded-md shadow">
+                            <a asp-controller="Pricing" asp-action="Index" class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 md:py-4 md:text-lg md:px-10 transition duration-150 ease-in-out">
+                                Get Started
+                            </a>
+                        </div>
+                        <div class="mt-3 sm:mt-0 sm:ml-3">
+                            <a asp-controller="Dashboard" asp-action="Index" class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 md:py-4 md:text-lg md:px-10 transition duration-150 ease-in-out">
+                                Live Demo
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+    <div class="lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
+        <img class="h-56 w-full object-cover sm:h-72 md:h-96 lg:w-full lg:h-full" src="https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2850&q=80" alt="Developer Dashboard">
+    </div>
+</div>
+
+<!-- Supported Platforms Section -->
+<div class="bg-white py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <p class="text-center text-sm font-semibold uppercase text-gray-500 tracking-wide">
+            Trusted by developers using
+        </p>
+        <div class="mt-6 grid grid-cols-2 gap-8 md:grid-cols-6 lg:grid-cols-5">
+            <div class="col-span-1 flex justify-center md:col-span-2 lg:col-span-1">
+                <span class="flex items-center justify-center h-12 text-gray-400 font-bold text-xl">.NET</span>
+            </div>
+            <div class="col-span-1 flex justify-center md:col-span-2 lg:col-span-1">
+                <span class="flex items-center justify-center h-12 text-gray-400 font-bold text-xl">Node.js</span>
+            </div>
+            <div class="col-span-1 flex justify-center md:col-span-2 lg:col-span-1">
+                <span class="flex items-center justify-center h-12 text-gray-400 font-bold text-xl">Python</span>
+            </div>
+            <div class="col-span-1 flex justify-center md:col-span-2 lg:col-span-1">
+                <span class="flex items-center justify-center h-12 text-gray-400 font-bold text-xl">PHP</span>
+            </div>
+            <div class="col-span-1 flex justify-center md:col-span-2 lg:col-span-1">
+                <span class="flex items-center justify-center h-12 text-gray-400 font-bold text-xl">Go</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- How it Works Section -->
+<div class="py-16 bg-gray-50 overflow-hidden lg:py-24">
+    <div class="relative max-w-xl mx-auto px-4 sm:px-6 lg:px-8 lg:max-w-7xl">
+        <div class="relative">
+            <h2 class="text-center text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+                How it Works
+            </h2>
+            <p class="mt-4 max-w-3xl mx-auto text-center text-xl text-gray-500">
+                Start tracking errors in less than 5 minutes.
+            </p>
+        </div>
+
+        <div class="relative mt-12 lg:mt-24 lg:grid lg:grid-cols-3 lg:gap-8">
+            <div class="relative">
+                <div class="flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white mx-auto text-xl font-bold">
+                    1
+                </div>
+                <h3 class="mt-6 text-xl font-medium text-gray-900 text-center">Create a Project</h3>
+                <p class="mt-2 text-base text-gray-500 text-center">
+                    Sign up and create a new project in your dashboard. We support any tech stack.
+                </p>
+            </div>
+
+            <div class="relative mt-10 lg:mt-0">
+                <div class="flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white mx-auto text-xl font-bold">
+                    2
+                </div>
+                <h3 class="mt-6 text-xl font-medium text-gray-900 text-center">Get Your Keys</h3>
+                <p class="mt-2 text-base text-gray-500 text-center">
+                    We'll generate a unique API Key and Security Key for your project instantly.
+                </p>
+            </div>
+
+            <div class="relative mt-10 lg:mt-0">
+                <div class="flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white mx-auto text-xl font-bold">
+                    3
+                </div>
+                <h3 class="mt-6 text-xl font-medium text-gray-900 text-center">Send Errors</h3>
+                <p class="mt-2 text-base text-gray-500 text-center">
+                    Configure your app to send error logs to your project's unique webhook URL.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Features Section -->
+<div class="py-12 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="lg:text-center">
+            <h2 class="text-base text-indigo-600 font-semibold tracking-wide uppercase">Features</h2>
+            <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+                Everything you need to debug faster
+            </p>
+            <p class="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
+                Built by developers, for developers. We understand what you need to diagnose issues quickly.
+            </p>
+        </div>
+
+        <div class="mt-10">
+            <dl class="space-y-10 md:space-y-0 md:grid md:grid-cols-2 md:gap-x-8 md:gap-y-10">
+                <div class="relative">
+                    <dt>
+                        <div class="absolute flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white">
+                            <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
+                            </svg>
+                        </div>
+                        <p class="ml-16 text-lg leading-6 font-medium text-gray-900">Real-time Ingestion</p>
+                    </dt>
+                    <dd class="mt-2 ml-16 text-base text-gray-500">
+                        Errors are captured and displayed instantly via our high-performance API.
+                    </dd>
+                </div>
+
+                <div class="relative">
+                    <dt>
+                        <div class="absolute flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white">
+                            <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3" />
+                            </svg>
+                        </div>
+                        <p class="ml-16 text-lg leading-6 font-medium text-gray-900">Secure by Default</p>
+                    </dt>
+                    <dd class="mt-2 ml-16 text-base text-gray-500">
+                        Every project is protected with API Keys and Security Keys to prevent unauthorized logging.
+                    </dd>
+                </div>
+
+                <div class="relative">
+                    <dt>
+                        <div class="absolute flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white">
+                            <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                            </svg>
+                        </div>
+                        <p class="ml-16 text-lg leading-6 font-medium text-gray-900">Multiple Tech Stacks</p>
+                    </dt>
+                    <dd class="mt-2 ml-16 text-base text-gray-500">
+                        Support for .NET, Node.js, PHP, and more. Just point your webhook to us.
+                    </dd>
+                </div>
+
+                <div class="relative">
+                    <dt>
+                        <div class="absolute flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white">
+                            <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
+                            </svg>
+                        </div>
+                        <p class="ml-16 text-lg leading-6 font-medium text-gray-900">Team Collaboration</p>
+                    </dt>
+                    <dd class="mt-2 ml-16 text-base text-gray-500">
+                        Share dashboards with your team and resolve issues together efficiently.
+                    </dd>
+                </div>
+            </dl>
+        </div>
+    </div>
+</div>
+
+<!-- Testimonials Section -->
+<div class="bg-gray-50 py-16 lg:py-24">
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="relative">
+            <div class="text-center">
+                <h2 class="text-3xl tracking-tight font-extrabold text-gray-900 sm:text-4xl">
+                    Loved by developers
+                </h2>
+                <p class="mt-3 max-w-2xl mx-auto text-xl text-gray-500 sm:mt-4">
+                    See what others are saying about ErrorLogDashboard.
+                </p>
+            </div>
+            <div class="mt-12 max-w-lg mx-auto grid gap-5 lg:grid-cols-3 lg:max-w-none">
+                <div class="flex flex-col rounded-lg shadow-lg overflow-hidden">
+                    <div class="flex-1 bg-white p-6 flex flex-col justify-between">
+                        <div class="flex-1">
+                            <p class="text-sm font-medium text-indigo-600">
+                                <a href="#" class="hover:underline">Backend Developer</a>
+                            </p>
+                            <div class="block mt-2">
+                                <p class="text-xl font-semibold text-gray-900">Lifesaver for my API</p>
+                                <p class="mt-3 text-base text-gray-500">
+                                    "I used to grep log files manually. This dashboard saves me hours every week. The setup was incredibly fast."
+                                </p>
+                            </div>
+                        </div>
+                        <div class="mt-6 flex items-center">
+                            <div class="flex-shrink-0">
+                                <span class="h-10 w-10 rounded-full bg-gray-300 flex items-center justify-center text-gray-600 font-bold">JS</span>
+                            </div>
+                            <div class="ml-3">
+                                <p class="text-sm font-medium text-gray-900">John Smith</p>
+                                <div class="flex space-x-1 text-sm text-gray-500">
+                                    <time datetime="2020-03-16">Mar 16, 2024</time>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex flex-col rounded-lg shadow-lg overflow-hidden">
+                    <div class="flex-1 bg-white p-6 flex flex-col justify-between">
+                        <div class="flex-1">
+                            <p class="text-sm font-medium text-indigo-600">
+                                <a href="#" class="hover:underline">Full Stack</a>
+                            </p>
+                            <div class="block mt-2">
+                                <p class="text-xl font-semibold text-gray-900">Works with everything</p>
+                                <p class="mt-3 text-base text-gray-500">
+                                    "I have projects in PHP, Node, and .NET. Being able to see all errors in one place is a game changer."
+                                </p>
+                            </div>
+                        </div>
+                        <div class="mt-6 flex items-center">
+                            <div class="flex-shrink-0">
+                                <span class="h-10 w-10 rounded-full bg-gray-300 flex items-center justify-center text-gray-600 font-bold">SD</span>
+                            </div>
+                            <div class="ml-3">
+                                <p class="text-sm font-medium text-gray-900">Sarah Doe</p>
+                                <div class="flex space-x-1 text-sm text-gray-500">
+                                    <time datetime="2020-03-10">Mar 10, 2024</time>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex flex-col rounded-lg shadow-lg overflow-hidden">
+                    <div class="flex-1 bg-white p-6 flex flex-col justify-between">
+                        <div class="flex-1">
+                            <p class="text-sm font-medium text-indigo-600">
+                                <a href="#" class="hover:underline">CTO</a>
+                            </p>
+                            <div class="block mt-2">
+                                <p class="text-xl font-semibold text-gray-900">Great value</p>
+                                <p class="mt-3 text-base text-gray-500">
+                                    "The pricing is transparent and the features are exactly what we need. No bloat, just effective error tracking."
+                                </p>
+                            </div>
+                        </div>
+                        <div class="mt-6 flex items-center">
+                            <div class="flex-shrink-0">
+                                <span class="h-10 w-10 rounded-full bg-gray-300 flex items-center justify-center text-gray-600 font-bold">MJ</span>
+                            </div>
+                            <div class="ml-3">
+                                <p class="text-sm font-medium text-gray-900">Mike Johnson</p>
+                                <div class="flex space-x-1 text-sm text-gray-500">
+                                    <time datetime="2020-02-12">Feb 12, 2024</time>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- FAQ Section -->
+<div class="bg-white">
+    <div class="max-w-7xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:px-8">
+        <h2 class="text-3xl font-extrabold text-gray-900 text-center">
+            Frequently asked questions
+        </h2>
+        <div class="mt-12">
+            <dl class="space-y-10 md:space-y-0 md:grid md:grid-cols-2 md:gap-x-8 md:gap-y-12">
+                <div>
+                    <dt class="text-lg leading-6 font-medium text-gray-900">
+                        Is there a free trial?
+                    </dt>
+                    <dd class="mt-2 text-base text-gray-500">
+                        Yes, you can start with our Free plan forever. It includes 1 project and 100 daily logs.
+                    </dd>
+                </div>
+
+                <div>
+                    <dt class="text-lg leading-6 font-medium text-gray-900">
+                        How do I integrate with my app?
+                    </dt>
+                    <dd class="mt-2 text-base text-gray-500">
+                        Simply make a POST request to your project's unique webhook URL with the error details. We provide examples for all major languages.
+                    </dd>
+                </div>
+
+                <div>
+                    <dt class="text-lg leading-6 font-medium text-gray-900">
+                        Can I upgrade later?
+                    </dt>
+                    <dd class="mt-2 text-base text-gray-500">
+                        Absolutely. You can upgrade or downgrade your plan at any time from your dashboard.
+                    </dd>
+                </div>
+
+                <div>
+                    <dt class="text-lg leading-6 font-medium text-gray-900">
+                        Is my data secure?
+                    </dt>
+                    <dd class="mt-2 text-base text-gray-500">
+                        Yes, we use industry-standard encryption and security practices. Your API keys and data are safe with us.
+                    </dd>
+                </div>
+            </dl>
+        </div>
+    </div>
+</div>
+
+<!-- Stats Section -->
+<div class="bg-indigo-800">
+    <div class="max-w-7xl mx-auto py-12 px-4 sm:py-16 sm:px-6 lg:px-8 lg:py-20">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-3xl font-extrabold text-white sm:text-4xl">
+                Trusted by developers worldwide
+            </h2>
+            <p class="mt-3 text-xl text-indigo-200 sm:mt-4">
+                Join thousands of developers who trust ErrorLogDashboard to keep their production apps running smoothly.
+            </p>
+        </div>
+        <dl class="mt-10 text-center sm:max-w-3xl sm:mx-auto sm:grid sm:grid-cols-3 sm:gap-8">
+            <div class="flex flex-col">
+                <dt class="order-2 mt-2 text-lg leading-6 font-medium text-indigo-200">
+                    Errors Tracked
+                </dt>
+                <dd class="order-1 text-5xl font-extrabold text-white">
+                    10M+
+                </dd>
+            </div>
+            <div class="flex flex-col mt-10 sm:mt-0">
+                <dt class="order-2 mt-2 text-lg leading-6 font-medium text-indigo-200">
+                    Projects
+                </dt>
+                <dd class="order-1 text-5xl font-extrabold text-white">
+                    5k+
+                </dd>
+            </div>
+            <div class="flex flex-col mt-10 sm:mt-0">
+                <dt class="order-2 mt-2 text-lg leading-6 font-medium text-indigo-200">
+                    Uptime
+                </dt>
+                <dd class="order-1 text-5xl font-extrabold text-white">
+                    99.9%
+                </dd>
+            </div>
+        </dl>
+    </div>
+</div>
+
+<!-- Final CTA -->
+<div class="bg-indigo-50">
+    <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8 lg:flex lg:items-center lg:justify-between">
+        <h2 class="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+            <span class="block">Ready to dive in?</span>
+            <span class="block text-indigo-600">Start your free trial today.</span>
+        </h2>
+        <div class="mt-8 flex lg:mt-0 lg:flex-shrink-0">
+            <div class="inline-flex rounded-md shadow">
+                <a asp-controller="Pricing" asp-action="Index" class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700">
+                    Get started
+                </a>
+            </div>
+            <div class="ml-3 inline-flex rounded-md shadow">
+                <a asp-controller="Dashboard" asp-action="Index" class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-indigo-600 bg-white hover:bg-indigo-50">
+                    Live Demo
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

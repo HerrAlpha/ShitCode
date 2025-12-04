@@ -1,0 +1,159 @@
+@{
+    ViewData["Title"] = ".NET Integration - Documentation";
+}
+
+<div class="bg-white">
+    <div class="max-w-4xl mx-auto py-16 px-4 sm:px-6 lg:px-8">
+        <nav class="mb-8">
+            <a asp-action="Index" class="text-indigo-600 hover:text-indigo-900">← Back to Docs</a>
+        </nav>
+
+        <h1 class="text-4xl font-extrabold text-gray-900 mb-4">.NET / C# Integration</h1>
+        <p class="text-xl text-gray-600 mb-8">Integrate error tracking into your .NET applications</p>
+
+        <div class="prose prose-indigo max-w-none">
+            <h2>ASP.NET Core Integration</h2>
+            
+            <h3>1. Create Error Logging Service</h3>
+            <p>Create a service to send errors to ErrorLogDashboard:</p>
+
+            <div class="bg-gray-900 rounded-lg p-4 my-4">
+                <pre class="text-sm text-gray-100 overflow-x-auto"><code>using System.Net.Http.Json;
+
+public class ErrorLogService
+{
+    private readonly HttpClient _httpClient;
+    private const string ApiKey = "YOUR_API_KEY";
+    private const string SecurityKey = "YOUR_SECURITY_KEY";
+    private const string WebhookUrl = $"https://your-domain.com/api/ingest/{ApiKey}";
+
+    public ErrorLogService(IHttpClientFactory httpClientFactory)
+    {
+        _httpClient = httpClientFactory.CreateClient();
+        _httpClient.DefaultRequestHeaders.Add("X-Security-Key", SecurityKey);
+    }
+
+    public async Task LogErrorAsync(Exception exception)
+    {
+        var errorData = new
+        {
+            message = exception.Message,
+            stackTrace = exception.StackTrace
+        };
+
+        try
+        {
+            await _httpClient.PostAsJsonAsync(WebhookUrl, errorData);
+        }
+        catch
+        {
+            // Silently fail - don't let error logging crash your app
+        }
+    }
+}</code></pre>
+            </div>
+
+            <h3>2. Register the Service</h3>
+            <p>In your <code>Program.cs</code> or <code>Startup.cs</code>:</p>
+
+            <div class="bg-gray-900 rounded-lg p-4 my-4">
+                <pre class="text-sm text-gray-100 overflow-x-auto"><code>builder.Services.AddHttpClient();
+builder.Services.AddSingleton&lt;ErrorLogService&gt;();</code></pre>
+            </div>
+
+            <h3>3. Global Exception Handler</h3>
+            <p>Add middleware to catch all unhandled exceptions:</p>
+
+            <div class="bg-gray-900 rounded-lg p-4 my-4">
+                <pre class="text-sm text-gray-100 overflow-x-auto"><code>public class ErrorLoggingMiddleware
+{
+    private readonly RequestDelegate _next;
+    private readonly ErrorLogService _errorLogService;
+
+    public ErrorLoggingMiddleware(RequestDelegate next, ErrorLogService errorLogService)
+    {
+        _next = next;
+        _errorLogService = errorLogService;
+    }
+
+    public async Task InvokeAsync(HttpContext context)
+    {
+        try
+        {
+            await _next(context);
+        }
+        catch (Exception ex)
+        {
+            await _errorLogService.LogErrorAsync(ex);
+            throw; // Re-throw to let other handlers process it
+        }
+    }
+}
+
+// In Program.cs:
+app.UseMiddleware&lt;ErrorLoggingMiddleware&gt;();</code></pre>
+            </div>
+
+            <h3>4. Manual Error Logging</h3>
+            <p>You can also log errors manually in try-catch blocks:</p>
+
+            <div class="bg-gray-900 rounded-lg p-4 my-4">
+                <pre class="text-sm text-gray-100 overflow-x-auto"><code>public class MyController : Controller
+{
+    private readonly ErrorLogService _errorLogService;
+
+    public MyController(ErrorLogService errorLogService)
+    {
+        _errorLogService = errorLogService;
+    }
+
+    public async Task&lt;IActionResult&gt; MyAction()
+    {
+        try
+        {
+            // Your code here
+        }
+        catch (Exception ex)
+        {
+            await _errorLogService.LogErrorAsync(ex);
+            return StatusCode(500);
+        }
+    }
+}</code></pre>
+            </div>
+
+            <h2>Console Application</h2>
+            <p>For console apps, use the service directly:</p>
+
+            <div class="bg-gray-900 rounded-lg p-4 my-4">
+                <pre class="text-sm text-gray-100 overflow-x-auto"><code>using System.Net.Http.Json;
+
+var httpClient = new HttpClient();
+httpClient.DefaultRequestHeaders.Add("X-Security-Key", "YOUR_SECURITY_KEY");
+
+try
+{
+    // Your code
+}
+catch (Exception ex)
+{
+    await httpClient.PostAsJsonAsync(
+        "https://your-domain.com/api/ingest/YOUR_API_KEY",
+        new { message = ex.Message, stackTrace = ex.StackTrace }
+    );
+}</code></pre>
+            </div>
+
+            <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 my-6">
+                <div class="flex">
+                    <svg class="h-5 w-5 text-yellow-400 mt-0.5 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+                    </svg>
+                    <p class="text-sm text-yellow-700">
+                        <strong>Security Tip:</strong> Store your API Key and Security Key in <code>appsettings.json</code> or environment variables, never hard-code them!
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,155 @@
+@{
+    ViewData["Title"] = "Python Integration - Documentation";
+}
+
+<div class="bg-white">
+    <div class="max-w-4xl mx-auto py-16 px-4 sm:px-6 lg:px-8">
+        <nav class="mb-8">
+            <a asp-action="Index" class="text-indigo-600 hover:text-indigo-900">← Back to Docs</a>
+        </nav>
+
+        <h1 class="text-4xl font-extrabold text-gray-900 mb-4">Python Integration</h1>
+        <p class="text-xl text-gray-600 mb-8">Integrate error tracking into your Python applications</p>
+
+        <div class="prose prose-indigo max-w-none">
+            <h2>Flask Integration</h2>
+            
+            <h3>1. Install Dependencies</h3>
+            <div class="bg-gray-900 rounded-lg p-4 my-4">
+                <pre class="text-sm text-gray-100 overflow-x-auto"><code>pip install requests</code></pre>
+            </div>
+
+            <h3>2. Create Error Logger Module</h3>
+            <div class="bg-gray-900 rounded-lg p-4 my-4">
+                <pre class="text-sm text-gray-100 overflow-x-auto"><code># error_logger.py
+import requests
+import traceback
+import os
+
+API_KEY = os.getenv('ERROR_LOG_API_KEY', 'YOUR_API_KEY')
+SECURITY_KEY = os.getenv('ERROR_LOG_SECURITY_KEY', 'YOUR_SECURITY_KEY')
+WEBHOOK_URL = f'https://your-domain.com/api/ingest/{API_KEY}'
+
+def log_error(exception, context=None):
+    try:
+        payload = {
+            'message': str(exception),
+            'stackTrace': traceback.format_exc()
+        }
+        
+        if context:
+            payload.update(context)
+        
+        requests.post(
+            WEBHOOK_URL,
+            json=payload,
+            headers={'X-Security-Key': SECURITY_KEY},
+            timeout=5
+        )
+    except Exception as e:
+        # Silently fail
+        print(f'Failed to log error: {e}')</code></pre>
+            </div>
+
+            <h3>3. Flask Error Handler</h3>
+            <div class="bg-gray-900 rounded-lg p-4 my-4">
+                <pre class="text-sm text-gray-100 overflow-x-auto"><code>from flask import Flask, jsonify, request
+from error_logger import log_error
+
+app = Flask(__name__)
+
+@@app.errorhandler(Exception)
+def handle_exception(e):
+    # Log to ErrorLogDashboard
+    log_error(e, {
+        'url': request.url,
+        'method': request.method,
+        'ip': request.remote_addr
+    })
+    
+    return jsonify({'error': 'Internal server error'}), 500
+
+@@app.route('/api/users/&lt;int:user_id&gt;')
+def get_user(user_id):
+    try:
+        # Your code here
+        return jsonify({'user': 'data'})
+    except Exception as e:
+        log_error(e, {'user_id': user_id})
+        return jsonify({'error': 'Failed to fetch user'}), 500
+
+if __name__ == '__main__':
+    app.run(debug=True)</code></pre>
+            </div>
+
+            <h2>Django Integration</h2>
+            
+            <h3>Custom Middleware</h3>
+            <div class="bg-gray-900 rounded-lg p-4 my-4">
+                <pre class="text-sm text-gray-100 overflow-x-auto"><code># middleware/error_logging.py
+from error_logger import log_error
+
+class ErrorLoggingMiddleware:
+    def __init__(self, get_response):
+        self.get_response = get_response
+
+    def __call__(self, request):
+        return self.get_response(request)
+
+    def process_exception(self, request, exception):
+        log_error(exception, {
+            'url': request.path,
+            'method': request.method,
+            'user': str(request.user)
+        })
+        return None  # Let Django handle the response
+
+# In settings.py:
+MIDDLEWARE = [
+    # ... other middleware
+    'middleware.error_logging.ErrorLoggingMiddleware',
+]</code></pre>
+            </div>
+
+            <h2>FastAPI Integration</h2>
+            <div class="bg-gray-900 rounded-lg p-4 my-4">
+                <pre class="text-sm text-gray-100 overflow-x-auto"><code>from fastapi import FastAPI, Request, HTTPException
+from fastapi.responses import JSONResponse
+from error_logger import log_error
+
+app = FastAPI()
+
+@@app.exception_handler(Exception)
+async def global_exception_handler(request: Request, exc: Exception):
+    log_error(exc, {
+        'url': str(request.url),
+        'method': request.method
+    })
+    return JSONResponse(
+        status_code=500,
+        content={'error': 'Internal server error'}
+    )
+
+@@app.get("/users/{user_id}")
+async def get_user(user_id: int):
+    try:
+        # Your code
+        return {"user": "data"}
+    except Exception as e:
+        log_error(e, {'user_id': user_id})
+        raise HTTPException(status_code=500)</code></pre>
+            </div>
+
+            <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 my-6">
+                <div class="flex">
+                    <svg class="h-5 w-5 text-yellow-400 mt-0.5 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+                    </svg>
+                    <p class="text-sm text-yellow-700">
+                        <strong>Best Practice:</strong> Use environment variables or <code>python-decouple</code> to manage your API keys securely.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

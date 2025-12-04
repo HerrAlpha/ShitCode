@@ -1,0 +1,175 @@
+@{
+    ViewData["Title"] = "Ruby Integration - Documentation";
+}
+
+<div class="bg-white">
+    <div class="max-w-4xl mx-auto py-16 px-4 sm:px-6 lg:px-8">
+        <nav class="mb-8">
+            <a asp-action="Index" class="text-indigo-600 hover:text-indigo-900">← Back to Docs</a>
+        </nav>
+
+        <h1 class="text-4xl font-extrabold text-gray-900 mb-4">Ruby Integration</h1>
+        <p class="text-xl text-gray-600 mb-8">Integrate error tracking into your Ruby applications</p>
+
+        <div class="prose prose-indigo max-w-none">
+            <h2>Ruby on Rails Integration</h2>
+            
+            <h3>1. Install Dependencies</h3>
+            <div class="bg-gray-900 rounded-lg p-4 my-4">
+                <pre class="text-sm text-gray-100 overflow-x-auto"><code># Gemfile
+gem 'httparty'</code></pre>
+            </div>
+
+            <h3>2. Create Error Logger</h3>
+            <div class="bg-gray-900 rounded-lg p-4 my-4">
+                <pre class="text-sm text-gray-100 overflow-x-auto"><code># lib/error_logger.rb
+require 'httparty'
+
+class ErrorLogger
+  API_KEY = ENV['ERROR_LOG_API_KEY'] || 'YOUR_API_KEY'
+  SECURITY_KEY = ENV['ERROR_LOG_SECURITY_KEY'] || 'YOUR_SECURITY_KEY'
+  WEBHOOK_URL = "https://your-domain.com/api/ingest/#{API_KEY}"
+
+  def self.log_error(exception, context = {})
+    payload = {
+      message: exception.message,
+      stackTrace: exception.backtrace.join("\n")
+    }.merge(context)
+
+    HTTParty.post(
+      WEBHOOK_URL,
+      body: payload.to_json,
+      headers: {
+        'Content-Type' =&gt; 'application/json',
+        'X-Security-Key' =&gt; SECURITY_KEY
+      }
+    )
+  rescue =&gt; e
+    # Silently fail
+    Rails.logger.error("Failed to log error: #{e.message}")
+  end
+end</code></pre>
+            </div>
+
+            <h3>3. Configure Exception Handling</h3>
+            <div class="bg-gray-900 rounded-lg p-4 my-4">
+                <pre class="text-sm text-gray-100 overflow-x-auto"><code># config/application.rb
+module YourApp
+  class Application &lt; Rails::Application
+    config.exceptions_app = -&gt;(env) do
+      ErrorsController.action(:show).call(env)
+    end
+  end
+end
+
+# app/controllers/errors_controller.rb
+class ErrorsController &lt; ApplicationController
+  def show
+    exception = env["action_dispatch.exception"]
+    
+    if exception
+      ErrorLogger.log_error(exception, {
+        url: request.original_url,
+        method: request.method,
+        params: params.to_unsafe_h
+      })
+    end
+
+    render json: { error: 'Internal server error' }, status: 500
+  end
+end</code></pre>
+            </div>
+
+            <h3>4. Rescue From in Controllers</h3>
+            <div class="bg-gray-900 rounded-lg p-4 my-4">
+                <pre class="text-sm text-gray-100 overflow-x-auto"><code># app/controllers/application_controller.rb
+class ApplicationController &lt; ActionController::Base
+  rescue_from StandardError, with: :handle_error
+
+  private
+
+  def handle_error(exception)
+    ErrorLogger.log_error(exception, {
+      url: request.original_url,
+      user_id: current_user&.id
+    })
+
+    render json: { error: 'Something went wrong' }, status: 500
+  end
+end</code></pre>
+            </div>
+
+            <h2>Sinatra Integration</h2>
+            <div class="bg-gray-900 rounded-lg p-4 my-4">
+                <pre class="text-sm text-gray-100 overflow-x-auto"><code>require 'sinatra'
+require_relative 'error_logger'
+
+# Global error handler
+error do
+  e = env['sinatra.error']
+  ErrorLogger.log_error(e, {
+    url: request.url,
+    method: request.request_method
+  })
+  
+  status 500
+  json error: 'Internal server error'
+end
+
+get '/users/:id' do
+  begin
+    user = User.find(params[:id])
+    json user: user
+  rescue =&gt; e
+    ErrorLogger.log_error(e, { user_id: params[:id] })
+    status 500
+    json error: 'Failed to fetch user'
+  end
+end</code></pre>
+            </div>
+
+            <h2>Environment Configuration</h2>
+            <div class="bg-gray-900 rounded-lg p-4 my-4">
+                <pre class="text-sm text-gray-100 overflow-x-auto"><code># .env
+ERROR_LOG_API_KEY=your_api_key_here
+ERROR_LOG_SECURITY_KEY=your_security_key_here</code></pre>
+            </div>
+
+            <h3>Manual Error Logging</h3>
+            <div class="bg-gray-900 rounded-lg p-4 my-4">
+                <pre class="text-sm text-gray-100 overflow-x-auto"><code>class UsersController &lt; ApplicationController
+  def create
+    begin
+      @@user = User.create!(user_params)
+      render json: @@user, status: :created
+    rescue ActiveRecord::RecordInvalid =&gt; e
+      ErrorLogger.log_error(e, {
+        action: 'user_creation',
+        params: user_params
+      })
+      render json: { error: e.message }, status: :unprocessable_entity
+    end
+  end
+
+  private
+
+  def user_params
+    params.require(:user).permit(:name, :email)
+  end
+end</code></pre>
+            </div>
+
+            <div class="bg-green-50 border-l-4 border-green-400 p-4 my-6">
+                <div class="flex">
+                    <svg class="h-5 w-5 text-green-400 mt-0.5 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                    </svg>
+                    <div>
+                        <p class="text-sm font-semibold text-green-700">Tip</p>
+                        <p class="text-sm text-green-700">Use the <code>dotenv</code> gem to manage your environment variables in development!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,83 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - ErrorLogDashboard</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Outfit', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: {
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            200: '#c7d2fe',
+                            300: '#a5b4fc',
+                            400: '#818cf8',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                            800: '#3730a3',
+                            900: '#312e81',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50 text-gray-900 font-sans antialiased">
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center">
+                <a class="text-2xl font-bold text-indigo-600" asp-area="" asp-controller="Home" asp-action="Index">ErrorLog</a>
+                <div class="hidden md:block ml-10 space-x-8">
+                    <a class="text-gray-500 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium" asp-controller="Home" asp-action="Index">Home</a>
+                    <a class="text-gray-500 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium" asp-controller="Docs" asp-action="Index">Docs</a>
+                    <a class="text-gray-500 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium" asp-controller="Pricing" asp-action="Index">Pricing</a>
+                    <a class="text-gray-500 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium" asp-controller="Dashboard" asp-action="Index">Dashboard</a>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <a class="text-indigo-600 hover:text-indigo-900 px-3 py-2 rounded-md text-sm font-medium" asp-controller="Admin" asp-action="Index">Admin Panel</a>
+                    }
+                </div>
+            </div>
+            <div>
+                @if (User.Identity?.IsAuthenticated == true)
+                {
+                    <span class="text-sm text-gray-500 mr-4">Hello, @User.Identity.Name</span>
+                    <a asp-controller="Auth" asp-action="Logout" class="text-gray-500 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">Logout</a>
+                }
+                else
+                {
+                    <a asp-controller="Auth" asp-action="Login" class="text-gray-500 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">Login</a>
+                    <a asp-controller="Auth" asp-action="Register" class="bg-indigo-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-indigo-700 transition ml-2">Get Started</a>
+                }
+            </div>
+        </nav>
+    </header>
+
+    <main role="main" class="flex-grow">
+        @RenderBody()
+    </main>
+
+    <footer class="bg-white border-t border-gray-200 mt-12">
+        <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8 text-center text-gray-400 text-sm">
+            &copy; 2025 ErrorLogDashboard. All rights reserved.
+        </div>
+    </footer>
+
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

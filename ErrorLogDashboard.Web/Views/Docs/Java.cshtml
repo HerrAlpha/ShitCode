@@ -1,0 +1,173 @@
+@{
+    ViewData["Title"] = "Java Integration - Documentation";
+}
+
+<div class="bg-white">
+    <div class="max-w-4xl mx-auto py-16 px-4 sm:px-6 lg:px-8">
+        <nav class="mb-8">
+            <a asp-action="Index" class="text-indigo-600 hover:text-indigo-900">← Back to Docs</a>
+        </nav>
+
+        <h1 class="text-4xl font-extrabold text-gray-900 mb-4">Java Integration</h1>
+        <p class="text-xl text-gray-600 mb-8">Integrate error tracking into your Java applications</p>
+
+        <div class="prose prose-indigo max-w-none">
+            <h2>Spring Boot Integration</h2>
+            
+            <h3>1. Add Dependencies</h3>
+            <div class="bg-gray-900 rounded-lg p-4 my-4">
+                <pre class="text-sm text-gray-100 overflow-x-auto"><code>&lt;!-- pom.xml --&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;
+&lt;/dependency&gt;</code></pre>
+            </div>
+
+            <h3>2. Create Error Logger Service</h3>
+            <div class="bg-gray-900 rounded-lg p-4 my-4">
+                <pre class="text-sm text-gray-100 overflow-x-auto"><code>// ErrorLogService.java
+package com.example.service;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.util.HashMap;
+import java.util.Map;
+
+@@Service
+public class ErrorLogService {
+    
+    @@Value("${errorlog.api.key}")
+    private String apiKey;
+    
+    @@Value("${errorlog.security.key}")
+    private String securityKey;
+    
+    private final RestTemplate restTemplate = new RestTemplate();
+    
+    public void logError(Exception exception, Map&lt;String, Object&gt; context) {
+        try {
+            String webhookUrl = "https://your-domain.com/api/ingest/" + apiKey;
+            
+            Map&lt;String, Object&gt; payload = new HashMap&lt;&gt;();
+            payload.put("message", exception.getMessage());
+            payload.put("stackTrace", getStackTrace(exception));
+            if (context != null) {
+                payload.putAll(context);
+            }
+            
+            HttpHeaders headers = new HttpHeaders();
+            headers.set("X-Security-Key", securityKey);
+            headers.set("Content-Type", "application/json");
+            
+            HttpEntity&lt;Map&lt;String, Object&gt;&gt; request = 
+                new HttpEntity&lt;&gt;(payload, headers);
+            
+            restTemplate.postForEntity(webhookUrl, request, String.class);
+        } catch (Exception e) {
+            // Silently fail
+            e.printStackTrace();
+        }
+    }
+    
+    private String getStackTrace(Exception exception) {
+        StringWriter sw = new StringWriter();
+        PrintWriter pw = new PrintWriter(sw);
+        exception.printStackTrace(pw);
+        return sw.toString();
+    }
+}</code></pre>
+            </div>
+
+            <h3>3. Global Exception Handler</h3>
+            <div class="bg-gray-900 rounded-lg p-4 my-4">
+                <pre class="text-sm text-gray-100 overflow-x-auto"><code>// GlobalExceptionHandler.java
+package com.example.controller;
+
+import com.example.service.ErrorLogService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.Map;
+
+@@ControllerAdvice
+public class GlobalExceptionHandler {
+    
+    @@Autowired
+    private ErrorLogService errorLogService;
+    
+    @@ExceptionHandler(Exception.class)
+    public ResponseEntity&lt;Map&lt;String, String&gt;&gt; handleException(
+        Exception ex, HttpServletRequest request
+    ) {
+        Map&lt;String, Object&gt; context = new HashMap&lt;&gt;();
+        context.put("url", request.getRequestURI());
+        context.put("method", request.getMethod());
+        
+        errorLogService.logError(ex, context);
+        
+        Map&lt;String, String&gt; response = new HashMap&lt;&gt;();
+        response.put("error", "Internal server error");
+        
+        return ResponseEntity
+            .status(HttpStatus.INTERNAL_SERVER_ERROR)
+            .body(response);
+    }
+}</code></pre>
+            </div>
+
+            <h3>4. Configuration</h3>
+            <div class="bg-gray-900 rounded-lg p-4 my-4">
+                <pre class="text-sm text-gray-100 overflow-x-auto"><code># application.properties
+errorlog.api.key=YOUR_API_KEY
+errorlog.security.key=YOUR_SECURITY_KEY</code></pre>
+            </div>
+
+            <h3>5. Manual Error Logging</h3>
+            <div class="bg-gray-900 rounded-lg p-4 my-4">
+                <pre class="text-sm text-gray-100 overflow-x-auto"><code>@@RestController
+@@RequestMapping("/api")
+public class UserController {
+    
+    @@Autowired
+    private ErrorLogService errorLogService;
+    
+    @@GetMapping("/users/{id}")
+    public ResponseEntity&lt;User&gt; getUser(@@PathVariable Long id) {
+        try {
+            User user = userService.findById(id);
+            return ResponseEntity.ok(user);
+        } catch (Exception e) {
+            Map&lt;String, Object&gt; context = new HashMap&lt;&gt;();
+            context.put("userId", id);
+            errorLogService.logError(e, context);
+            
+            return ResponseEntity
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .build();
+        }
+    }
+}</code></pre>
+            </div>
+
+            <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 my-6">
+                <div class="flex">
+                    <svg class="h-5 w-5 text-yellow-400 mt-0.5 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+                    </svg>
+                    <p class="text-sm text-yellow-700">
+                        <strong>Security:</strong> Never commit <code>application.properties</code> with real API keys! Use environment variables in production.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

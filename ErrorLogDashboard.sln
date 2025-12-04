@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ErrorLogDashboard.Web", "ErrorLogDashboard.Web\ErrorLogDashboard.Web.csproj", "{993F02E4-8622-4B8D-AA19-43DA3F6541FF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ErrorLogDashboard.Cli", "ErrorLogDashboard.Cli\ErrorLogDashboard.Cli.csproj", "{939E9500-C1F0-401F-965A-330B70FCB30E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{993F02E4-8622-4B8D-AA19-43DA3F6541FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{993F02E4-8622-4B8D-AA19-43DA3F6541FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{993F02E4-8622-4B8D-AA19-43DA3F6541FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{993F02E4-8622-4B8D-AA19-43DA3F6541FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{939E9500-C1F0-401F-965A-330B70FCB30E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{939E9500-C1F0-401F-965A-330B70FCB30E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{939E9500-C1F0-401F-965A-330B70FCB30E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{939E9500-C1F0-401F-965A-330B70FCB30E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

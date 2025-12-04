@@ -1,0 +1,278 @@
+@{
+    ViewData["Title"] = "Pricing";
+}
+
+<!-- Pricing Section -->
+<div class="bg-gray-100">
+    <div class="pt-12 sm:pt-16 lg:pt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl lg:text-5xl">
+                    Simple, transparent pricing
+                </h2>
+                <p class="mt-4 text-xl text-gray-600">
+                    Choose the plan that's right for you
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="mt-8 pb-12 bg-gray-100 sm:mt-12 sm:pb-16 lg:mt-16 lg:pb-24">
+        <div class="relative">
+            <div class="absolute inset-0 h-3/4 bg-gray-100"></div>
+            <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="max-w-md mx-auto space-y-4 lg:max-w-5xl lg:grid lg:grid-cols-4 lg:gap-5 lg:space-y-0">
+                    
+                    <!-- Free Plan -->
+                    <div class="flex flex-col rounded-lg shadow-lg overflow-hidden">
+                        <div class="px-6 py-8 bg-white sm:p-10 sm:pb-6">
+                            <div>
+                                <h3 class="inline-flex px-4 py-1 rounded-full text-sm font-semibold tracking-wide uppercase bg-indigo-100 text-indigo-600">
+                                    Free
+                                </h3>
+                            </div>
+                            <div class="mt-4 flex items-baseline text-6xl font-extrabold">
+                                $0
+                                <span class="ml-1 text-2xl font-medium text-gray-500">/mo</span>
+                            </div>
+                            <p class="mt-5 text-lg text-gray-500">Perfect for trying out the platform</p>
+                        </div>
+                        <div class="flex-1 flex flex-col justify-between px-6 pt-6 pb-8 bg-gray-50 space-y-6 sm:p-10 sm:pt-6">
+                            <ul class="space-y-4">
+                                <li class="flex items-start">
+                                    <div class="flex-shrink-0">
+                                        <svg class="h-6 w-6 text-green-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                        </svg>
+                                    </div>
+                                    <p class="ml-3 text-base text-gray-700">1 Project</p>
+                                </li>
+                                <li class="flex items-start">
+                                    <div class="flex-shrink-0">
+                                        <svg class="h-6 w-6 text-green-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                        </svg>
+                                    </div>
+                                    <p class="ml-3 text-base text-gray-700">100 logs/day</p>
+                                </li>
+                                <li class="flex items-start">
+                                    <div class="flex-shrink-0">
+                                        <svg class="h-6 w-6 text-green-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                        </svg>
+                                    </div>
+                                    <p class="ml-3 text-base text-gray-700">7 days retention</p>
+                                </li>
+                            </ul>
+                            <div class="rounded-md shadow">
+                                <a asp-controller="Auth" asp-action="Register" class="flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-gray-800 hover:bg-gray-900">
+                                    Get started
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Basic Plan -->
+                    <div class="flex flex-col rounded-lg shadow-lg overflow-hidden">
+                        <div class="px-6 py-8 bg-white sm:p-10 sm:pb-6">
+                            <div>
+                                <h3 class="inline-flex px-4 py-1 rounded-full text-sm font-semibold tracking-wide uppercase bg-indigo-100 text-indigo-600">
+                                    Basic
+                                </h3>
+                            </div>
+                            <div class="mt-4 flex items-baseline text-6xl font-extrabold">
+                                $9
+                                <span class="ml-1 text-2xl font-medium text-gray-500">/mo</span>
+                            </div>
+                            <p class="mt-5 text-lg text-gray-500">For small teams and projects</p>
+                        </div>
+                        <div class="flex-1 flex flex-col justify-between px-6 pt-6 pb-8 bg-gray-50 space-y-6 sm:p-10 sm:pt-6">
+                            <ul class="space-y-4">
+                                <li class="flex items-start">
+                                    <div class="flex-shrink-0">
+                                        <svg class="h-6 w-6 text-green-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                        </svg>
+                                    </div>
+                                    <p class="ml-3 text-base text-gray-700">5 Projects</p>
+                                </li>
+                                <li class="flex items-start">
+                                    <div class="flex-shrink-0">
+                                        <svg class="h-6 w-6 text-green-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                        </svg>
+                                    </div>
+                                    <p class="ml-3 text-base text-gray-700">1,000 logs/day</p>
+                                </li>
+                                <li class="flex items-start">
+                                    <div class="flex-shrink-0">
+                                        <svg class="h-6 w-6 text-green-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                        </svg>
+                                    </div>
+                                    <p class="ml-3 text-base text-gray-700">30 days retention</p>
+                                </li>
+                                <li class="flex items-start">
+                                    <div class="flex-shrink-0">
+                                        <svg class="h-6 w-6 text-green-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                        </svg>
+                                    </div>
+                                    <p class="ml-3 text-base text-gray-700">Email support</p>
+                                </li>
+                            </ul>
+                            <div class="rounded-md shadow">
+                                <a asp-controller="Auth" asp-action="Register" class="flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700">
+                                    Get started
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pro Plan -->
+                    <div class="flex flex-col rounded-lg shadow-lg overflow-hidden border-2 border-indigo-600 relative">
+                        <div class="absolute top-0 right-0 mt-4 mr-4">
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-indigo-600 text-white">
+                                Popular
+                            </span>
+                        </div>
+                        <div class="px-6 py-8 bg-white sm:p-10 sm:pb-6">
+                            <div>
+                                <h3 class="inline-flex px-4 py-1 rounded-full text-sm font-semibold tracking-wide uppercase bg-indigo-100 text-indigo-600">
+                                    Pro
+                                </h3>
+                            </div>
+                            <div class="mt-4 flex items-baseline text-6xl font-extrabold">
+                                $29
+                                <span class="ml-1 text-2xl font-medium text-gray-500">/mo</span>
+                            </div>
+                            <p class="mt-5 text-lg text-gray-500">For growing businesses</p>
+                        </div>
+                        <div class="flex-1 flex flex-col justify-between px-6 pt-6 pb-8 bg-gray-50 space-y-6 sm:p-10 sm:pt-6">
+                            <ul class="space-y-4">
+                                <li class="flex items-start">
+                                    <div class="flex-shrink-0">
+                                        <svg class="h-6 w-6 text-green-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                        </svg>
+                                    </div>
+                                    <p class="ml-3 text-base text-gray-700">20 Projects</p>
+                                </li>
+                                <li class="flex items-start">
+                                    <div class="flex-shrink-0">
+                                        <svg class="h-6 w-6 text-green-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                        </svg>
+                                    </div>
+                                    <p class="ml-3 text-base text-gray-700">10,000 logs/day</p>
+                                </li>
+                                <li class="flex items-start">
+                                    <div class="flex-shrink-0">
+                                        <svg class="h-6 w-6 text-green-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                        </svg>
+                                    </div>
+                                    <p class="ml-3 text-base text-gray-700">90 days retention</p>
+                                </li>
+                                <li class="flex items-start">
+                                    <div class="flex-shrink-0">
+                                        <svg class="h-6 w-6 text-green-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                        </svg>
+                                    </div>
+                                    <p class="ml-3 text-base text-gray-700">Priority support</p>
+                                </li>
+                                <li class="flex items-start">
+                                    <div class="flex-shrink-0">
+                                        <svg class="h-6 w-6 text-green-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                        </svg>
+                                    </div>
+                                    <p class="ml-3 text-base text-gray-700">Advanced analytics</p>
+                                </li>
+                            </ul>
+                            <div class="rounded-md shadow">
+                                <a asp-controller="Auth" asp-action="Register" class="flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700">
+                                    Get started
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Platinum Plan -->
+                    <div class="flex flex-col rounded-lg shadow-lg overflow-hidden">
+                        <div class="px-6 py-8 bg-white sm:p-10 sm:pb-6">
+                            <div>
+                                <h3 class="inline-flex px-4 py-1 rounded-full text-sm font-semibold tracking-wide uppercase bg-indigo-100 text-indigo-600">
+                                    Platinum
+                                </h3>
+                            </div>
+                            <div class="mt-4 flex items-baseline text-6xl font-extrabold">
+                                $99
+                                <span class="ml-1 text-2xl font-medium text-gray-500">/mo</span>
+                            </div>
+                            <p class="mt-5 text-lg text-gray-500">For enterprises</p>
+                        </div>
+                        <div class="flex-1 flex flex-col justify-between px-6 pt-6 pb-8 bg-gray-50 space-y-6 sm:p-10 sm:pt-6">
+                            <ul class="space-y-4">
+                                <li class="flex items-start">
+                                    <div class="flex-shrink-0">
+                                        <svg class="h-6 w-6 text-green-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                        </svg>
+                                    </div>
+                                    <p class="ml-3 text-base text-gray-700">Unlimited Projects</p>
+                                </li>
+                                <li class="flex items-start">
+                                    <div class="flex-shrink-0">
+                                        <svg class="h-6 w-6 text-green-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                        </svg>
+                                    </div>
+                                    <p class="ml-3 text-base text-gray-700">Unlimited logs</p>
+                                </li>
+                                <li class="flex items-start">
+                                    <div class="flex-shrink-0">
+                                        <svg class="h-6 w-6 text-green-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                        </svg>
+                                    </div>
+                                    <p class="ml-3 text-base text-gray-700">Unlimited retention</p>
+                                </li>
+                                <li class="flex items-start">
+                                    <div class="flex-shrink-0">
+                                        <svg class="h-6 w-6 text-green-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                        </svg>
+                                    </div>
+                                    <p class="ml-3 text-base text-gray-700">24/7 phone support</p>
+                                </li>
+                                <li class="flex items-start">
+                                    <div class="flex-shrink-0">
+                                        <svg class="h-6 w-6 text-green-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                        </svg>
+                                    </div>
+                                    <p class="ml-3 text-base text-gray-700">Custom integrations</p>
+                                </li>
+                                <li class="flex items-start">
+                                    <div class="flex-shrink-0">
+                                        <svg class="h-6 w-6 text-green-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                        </svg>
+                                    </div>
+                                    <p class="ml-3 text-base text-gray-700">SLA guarantee</p>
+                                </li>
+                            </ul>
+                            <div class="rounded-md shadow">
+                                <a asp-controller="Auth" asp-action="Register" class="flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-gray-800 hover:bg-gray-900">
+                                    Contact Sales
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

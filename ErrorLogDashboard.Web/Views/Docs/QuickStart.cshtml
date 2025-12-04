@@ -1,0 +1,94 @@
+@{
+    ViewData["Title"] = "Quick Start - Documentation";
+}
+
+<div class="bg-white">
+    <div class="max-w-4xl mx-auto py-16 px-4 sm:px-6 lg:px-8">
+        <nav class="mb-8">
+            <a asp-action="Index" class="text-indigo-600 hover:text-indigo-900">← Back to Docs</a>
+        </nav>
+
+        <h1 class="text-4xl font-extrabold text-gray-900 mb-4">Quick Start Guide</h1>
+        <p class="text-xl text-gray-600 mb-8">Get your error tracking up and running in under 5 minutes</p>
+
+        <div class="prose prose-indigo max-w-none">
+            <h2>Step 1: Create a Project</h2>
+            <p>First, log in to your dashboard and create a new project:</p>
+            <ol>
+                <li>Click the <strong>"Create Project"</strong> button</li>
+                <li>Enter your project name (e.g., "My Awesome App")</li>
+                <li>Select your technology stack</li>
+                <li>Click <strong>"Create Project"</strong></li>
+            </ol>
+
+            <div class="bg-blue-50 border-l-4 border-blue-400 p-4 my-6">
+                <div class="flex">
+                    <svg class="h-5 w-5 text-blue-400 mt-0.5 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+                    </svg>
+                    <p class="text-sm text-blue-700">
+                        Save your API Key and Security Key - you'll need them in the next step!
+                    </p>
+                </div>
+            </div>
+
+            <h2>Step 2: Install the Integration</h2>
+            <p>Choose your programming language and follow the integration guide:</p>
+
+            <div class="grid gap-4 md:grid-cols-2 not-prose my-6">
+                <a asp-action="DotNet" class="block p-4 border border-gray-200 rounded-lg hover:border-indigo-500 hover:shadow-md transition">
+                    <h4 class="font-semibold text-gray-900">.NET / C#</h4>
+                    <p class="text-sm text-gray-600">ASP.NET Core, Console Apps</p>
+                </a>
+                <a asp-action="NodeJs" class="block p-4 border border-gray-200 rounded-lg hover:border-indigo-500 hover:shadow-md transition">
+                    <h4 class="font-semibold text-gray-900">Node.js</h4>
+                    <p class="text-sm text-gray-600">Express, Koa, Next.js</p>
+                </a>
+                <a asp-action="Python" class="block p-4 border border-gray-200 rounded-lg hover:border-indigo-500 hover:shadow-md transition">
+                    <h4 class="font-semibold text-gray-900">Python</h4>
+                    <p class="text-sm text-gray-600">Flask, Django, FastAPI</p>
+                </a>
+                <a asp-action="PHP" class="block p-4 border border-gray-200 rounded-lg hover:border-indigo-500 hover:shadow-md transition">
+                    <h4 class="font-semibold text-gray-900">PHP</h4>
+                    <p class="text-sm text-gray-600">Laravel, Symfony, WordPress</p>
+                </a>
+            </div>
+
+            <h2>Step 3: Send Your First Error</h2>
+            <p>Test your integration by sending a test error:</p>
+
+            <div class="bg-gray-900 rounded-lg p-4 my-4">
+                <pre class="text-sm text-gray-100 overflow-x-auto"><code>curl -X POST https://your-domain.com/api/ingest/YOUR_API_KEY \
+  -H "Content-Type: application/json" \
+  -H "X-Security-Key: YOUR_SECURITY_KEY" \
+  -d '{
+    "message": "Test error from Quick Start",
+    "stackTrace": "at TestFunction() in test.cs:line 42"
+  }'</code></pre>
+            </div>
+
+            <h2>Step 4: View Your Errors</h2>
+            <p>Go to your dashboard and click "View Logs" on your project. You should see your test error!</p>
+
+            <div class="bg-green-50 border-l-4 border-green-400 p-4 my-6">
+                <div class="flex">
+                    <svg class="h-5 w-5 text-green-400 mt-0.5 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                    </svg>
+                    <div>
+                        <p class="text-sm font-semibold text-green-700">Success!</p>
+                        <p class="text-sm text-green-700">You're now tracking errors in real-time. Check out language-specific guides for advanced integration.</p>
+                    </div>
+                </div>
+            </div>
+
+            <h2>Next Steps</h2>
+            <ul>
+                <li>Add error tracking to your production application</li>
+                <li>Set up error notifications (coming soon)</li>
+                <li>Invite team members to collaborate</li>
+                <li>Explore advanced filtering and search</li>
+            </ul>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,18 @@
+[Unit]
+Description=Error Log Dashboard .NET Web App
+After=network.target mysql.service
+
+[Service]
+WorkingDirectory=/var/www/error-log-dashboard
+ExecStart=/usr/bin/dotnet /var/www/error-log-dashboard/ErrorLogDashboard.Web.dll
+Restart=always
+# Restart service after 10 seconds if the dotnet service crashes:
+RestartSec=10
+KillSignal=SIGINT
+SyslogIdentifier=error-log-dashboard
+User=www-data
+Environment=ASPNETCORE_ENVIRONMENT=Production
+Environment=DOTNET_PRINT_TELEMETRY_MESSAGE=false
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,166 @@
+@{
+    ViewData["Title"] = "Node.js Integration - Documentation";
+}
+
+<div class="bg-white">
+    <div class="max-w-4xl mx-auto py-16 px-4 sm:px-6 lg:px-8">
+        <nav class="mb-8">
+            <a asp-action="Index" class="text-indigo-600 hover:text-indigo-900">← Back to Docs</a>
+        </nav>
+
+        <h1 class="text-4xl font-extrabold text-gray-900 mb-4">Node.js Integration</h1>
+        <p class="text-xl text-gray-600 mb-8">Integrate error tracking into your Node.js applications</p>
+
+        <div class="prose prose-indigo max-w-none">
+            <h2>Express.js Integration</h2>
+            
+            <h3>1. Install Dependencies</h3>
+            <div class="bg-gray-900 rounded-lg p-4 my-4">
+                <pre class="text-sm text-gray-100 overflow-x-auto"><code>npm install axios</code></pre>
+            </div>
+
+            <h3>2. Create Error Logger Module</h3>
+            <div class="bg-gray-900 rounded-lg p-4 my-4">
+                <pre class="text-sm text-gray-100 overflow-x-auto"><code>// errorLogger.js
+const axios = require('axios');
+
+const API_KEY = process.env.ERROR_LOG_API_KEY || 'YOUR_API_KEY';
+const SECURITY_KEY = process.env.ERROR_LOG_SECURITY_KEY || 'YOUR_SECURITY_KEY';
+const WEBHOOK_URL = `https://your-domain.com/api/ingest/${API_KEY}`;
+
+async function logError(error, additionalInfo = {}) {
+    try {
+        await axios.post(WEBHOOK_URL, {
+            message: error.message,
+            stackTrace: error.stack,
+            ...additionalInfo
+        }, {
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Security-Key': SECURITY_KEY
+            }
+        });
+    } catch (err) {
+        // Silently fail - don't let error logging crash your app
+        console.error('Failed to log error:', err.message);
+    }
+}
+
+module.exports = { logError };</code></pre>
+            </div>
+
+            <h3>3. Express Error Middleware</h3>
+            <div class="bg-gray-900 rounded-lg p-4 my-4">
+                <pre class="text-sm text-gray-100 overflow-x-auto"><code>// app.js
+const express = require('express');
+const { logError } = require('./errorLogger');
+
+const app = express();
+
+// Your routes here...
+
+// Error handling middleware (must be last)
+app.use((err, req, res, next) => {
+    // Log to ErrorLogDashboard
+    logError(err, {
+        url: req.url,
+        method: req.method,
+        ip: req.ip
+    });
+
+    // Send response to client
+    res.status(500).json({ error: 'Internal server error' });
+});
+
+app.listen(3000, () => {
+    console.log('Server running on port 3000');
+});</code></pre>
+            </div>
+
+            <h3>4. Manual Error Logging</h3>
+            <div class="bg-gray-900 rounded-lg p-4 my-4">
+                <pre class="text-sm text-gray-100 overflow-x-auto"><code>const { logError } = require('./errorLogger');
+
+app.get('/api/users/:id', async (req, res) => {
+    try {
+        const user = await getUserById(req.params.id);
+        res.json(user);
+    } catch (error) {
+        await logError(error, {
+            userId: req.params.id,
+            action: 'get_user'
+        });
+        res.status(500).json({ error: 'Failed to fetch user' });
+    }
+});</code></pre>
+            </div>
+
+            <h2>Next.js Integration</h2>
+            <div class="bg-gray-900 rounded-lg p-4 my-4">
+                <pre class="text-sm text-gray-100 overflow-x-auto"><code>// pages/api/error-handler.js
+import axios from 'axios';
+
+export async function logError(error, context = {}) {
+    const API_KEY = process.env.ERROR_LOG_API_KEY;
+    const SECURITY_KEY = process.env.ERROR_LOG_SECURITY_KEY;
+    
+    try {
+        await axios.post(
+            `https://your-domain.com/api/ingest/${API_KEY}`,
+            {
+                message: error.message,
+                stackTrace: error.stack,
+                context
+            },
+            {
+                headers: {
+                    'X-Security-Key': SECURITY_KEY
+                }
+            }
+        );
+    } catch (err) {
+        console.error('Error logging failed:', err);
+    }
+}
+
+// Use in API routes:
+export default async function handler(req, res) {
+    try {
+        // Your code
+    } catch (error) {
+        await logError(error, { route: req.url });
+        res.status(500).json({ error: 'Internal error' });
+    }
+}</code></pre>
+            </div>
+
+            <h2>Process-Level Error Handling</h2>
+            <div class="bg-gray-900 rounded-lg p-4 my-4">
+                <pre class="text-sm text-gray-100 overflow-x-auto"><code>const { logError } = require('./errorLogger');
+
+// Catch unhandled promise rejections
+process.on('unhandledRejection', (reason, promise) => {
+    logError(new Error(`Unhandled Rejection: ${reason}`));
+});
+
+// Catch uncaught exceptions
+process.on('uncaughtException', (error) => {
+    logError(error);
+    // Gracefully shutdown
+    process.exit(1);
+});</code></pre>
+            </div>
+
+            <div class="bg-blue-50 border-l-4 border-blue-400 p-4 my-6">
+                <div class="flex">
+                    <svg class="h-5 w-5 text-blue-400 mt-0.5 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+                    </svg>
+                    <p class="text-sm text-blue-700">
+                        <strong>Environment Variables:</strong> Store your keys in <code>.env</code> file and add it to <code>.gitignore</code>!
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
