@@ -13,6 +13,7 @@ SyslogIdentifier=shitcode
 User=www-data
 Environment=ASPNETCORE_ENVIRONMENT=Production
 Environment=DOTNET_PRINT_TELEMETRY_MESSAGE=false
+Environment=ASPNETCORE_URLS=http://*:5009
 # Ensure you set the DeepSeek API Key here or in /etc/environment
 # Environment=DeepSeek__ApiKey=your_api_key_here
 
