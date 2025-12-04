@@ -15,6 +15,12 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
+        // Redirect authenticated users to Dashboard
+        if (User.Identity?.IsAuthenticated == true)
+        {
+            return RedirectToAction("Index", "Dashboard");
+        }
+        
         return View();
     }
 

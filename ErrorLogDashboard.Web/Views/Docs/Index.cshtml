@@ -1,135 +1,129 @@
 @{
     ViewData["Title"] = "Documentation";
+    Layout = "_DocsLayout";
 }
 
-<div class="bg-white">
-    <div class="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:px-8">
-        <div class="text-center">
-            <h1 class="text-4xl font-extrabold text-gray-900 sm:text-5xl">
-                Documentation
-            </h1>
-            <p class="mt-4 text-xl text-gray-600">
-                Everything you need to integrate error tracking into your application
-            </p>
-        </div>
+<div class="max-w-4xl mx-auto">
+    <!-- Header -->
+    <div class="border-b border-gray-200 pb-10">
+        <h1 class="text-4xl font-extrabold text-gray-900 tracking-tight sm:text-5xl mb-4">Documentation</h1>
+        <p class="text-xl text-gray-500 max-w-2xl">
+            Everything you need to integrate ShitCode into your applications. 
+            Get started quickly with our language-specific guides and API reference.
+        </p>
+    </div>
 
-        <div class="mt-16 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-            <!-- Quick Start -->
-            <a asp-action="QuickStart" class="block p-6 bg-white border border-gray-200 rounded-lg shadow-md hover:shadow-lg transition-shadow">
-                <div class="flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white mb-4">
-                    <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <!-- Quick Links -->
+    <div class="mt-12">
+        <h2 class="text-lg font-semibold text-gray-900 mb-6">Popular Guides</h2>
+        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <a asp-action="QuickStart" class="group relative bg-white border border-gray-200 rounded-xl p-6 hover:border-indigo-500 hover:ring-1 hover:ring-indigo-500 transition-all duration-200 shadow-sm hover:shadow-md">
+                <div class="absolute top-6 right-6 text-gray-300 group-hover:text-indigo-500 transition-colors">
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
                     </svg>
                 </div>
-                <h3 class="text-lg font-semibold text-gray-900 mb-2">Quick Start</h3>
-                <p class="text-gray-600">Get up and running in under 5 minutes</p>
+                <h3 class="text-lg font-bold text-gray-900 group-hover:text-indigo-600 transition-colors">Quick Start</h3>
+                <p class="mt-2 text-sm text-gray-500">Get up and running with ShitCode in less than 5 minutes.</p>
             </a>
 
-            <!-- .NET -->
-            <a asp-action="DotNet" class="block p-6 bg-white border border-gray-200 rounded-lg shadow-md hover:shadow-lg transition-shadow">
-                <div class="flex items-center justify-center h-12 w-12 rounded-md bg-purple-500 text-white mb-4">
-                    <span class="font-bold text-lg">.NET</span>
+            <a asp-action="DotNet" class="group relative bg-white border border-gray-200 rounded-xl p-6 hover:border-indigo-500 hover:ring-1 hover:ring-indigo-500 transition-all duration-200 shadow-sm hover:shadow-md">
+                <div class="absolute top-6 right-6 text-gray-300 group-hover:text-indigo-500 transition-colors">
+                    <svg class="h-8 w-8" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+                        <path fill="#68217A" d="M73.2 10.6l28.3 16.3c2.6 1.5 4.2 4.3 4.2 7.3v32.5c0 3-1.6 5.8-4.2 7.3L73.2 90.4c-2.6 1.5-5.8 1.5-8.4 0L36.5 74.1c-2.6-1.5-4.2-4.3-4.2-7.3V34.2c0-3 1.6-5.8 4.2-7.3L64.8 10.6c2.6-1.5 5.8-1.5 8.4 0z"/>
+                        <path fill="#FFF" d="M89.8 32.2c0-1.2-1-2.2-2.2-2.2H76.7c-1.2 0-2.2 1-2.2 2.2v35.1c0 1.2 1 2.2 2.2 2.2h10.9c1.2 0 2.2-1 2.2-2.2V32.2zM53.2 69.5h-11c-1.2 0-2.2-1-2.2-2.2V32.2c0-1.2 1-2.2 2.2-2.2h10.9c1.2 0 2.2 1 2.2 2.2v35.1c.1 1.2-.9 2.2-2.1 2.2zM65.3 69.5H54.4c-1.2 0-2.2-1-2.2-2.2V32.2c0-1.2 1-2.2 2.2-2.2h10.9c1.2 0 2.2 1 2.2 2.2v35.1c0 1.2-1 2.2-2.2 2.2z"/>
+                    </svg>
                 </div>
-                <h3 class="text-lg font-semibold text-gray-900 mb-2">.NET / C#</h3>
-                <p class="text-gray-600">Integration guide for .NET applications</p>
+                <h3 class="text-lg font-bold text-gray-900 group-hover:text-indigo-600 transition-colors">.NET / C#</h3>
+                <p class="mt-2 text-sm text-gray-500">Integration guide for ASP.NET Core and .NET applications.</p>
             </a>
 
-            <!-- Node.js -->
-            <a asp-action="NodeJs" class="block p-6 bg-white border border-gray-200 rounded-lg shadow-md hover:shadow-lg transition-shadow">
-                <div class="flex items-center justify-center h-12 w-12 rounded-md bg-green-600 text-white mb-4">
-                    <span class="font-bold text-lg">Node</span>
+            <a asp-action="NodeJs" class="group relative bg-white border border-gray-200 rounded-xl p-6 hover:border-indigo-500 hover:ring-1 hover:ring-indigo-500 transition-all duration-200 shadow-sm hover:shadow-md">
+                <div class="absolute top-6 right-6 text-gray-300 group-hover:text-indigo-500 transition-colors">
+                    <svg class="h-8 w-8" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+                        <path fill="#339933" d="M64 0C28.7 0 0 28.7 0 64s28.7 64 64 64 64-28.7 64-64S99.3 0 64 0zm29.4 78.4c-3.5 2-7.5 3-11.5 3-4 0-8-1-11.5-3l-20-11.5c-3.5-2-5.5-5.5-5.5-9.5V34.6c0-4 2-7.5 5.5-9.5l20-11.5c3.5-2 7.5-3 11.5-3 4 0 8 1 11.5 3l20 11.5c3.5 2 5.5 5.5 5.5 9.5v22.8c0 4-2 7.5-5.5 9.5l-20 11.5z"/>
+                    </svg>
                 </div>
-                <h3 class="text-lg font-semibold text-gray-900 mb-2">Node.js</h3>
-                <p class="text-gray-600">Integration guide for Node.js applications</p>
-            </a>
-
-            <!-- Python -->
-            <a asp-action="Python" class="block p-6 bg-white border border-gray-200 rounded-lg shadow-md hover:shadow-lg transition-shadow">
-                <div class="flex items-center justify-center h-12 w-12 rounded-md bg-blue-500 text-white mb-4">
-                    <span class="font-bold text-lg">Py</span>
-                </div>
-                <h3 class="text-lg font-semibold text-gray-900 mb-2">Python</h3>
-                <p class="text-gray-600">Integration guide for Python applications</p>
-            </a>
-
-            <!-- PHP -->
-            <a asp-action="PHP" class="block p-6 bg-white border border-gray-200 rounded-lg shadow-md hover:shadow-lg transition-shadow">
-                <div class="flex items-center justify-center h-12 w-12 rounded-md bg-indigo-600 text-white mb-4">
-                    <span class="font-bold text-lg">PHP</span>
-                </div>
-                <h3 class="text-lg font-semibold text-gray-900 mb-2">PHP</h3>
-                <p class="text-gray-600">Integration guide for PHP applications</p>
-            </a>
-
-            <!-- Go -->
-            <a asp-action="Go" class="block p-6 bg-white border border-gray-200 rounded-lg shadow-md hover:shadow-lg transition-shadow">
-                <div class="flex items-center justify-center h-12 w-12 rounded-md bg-cyan-500 text-white mb-4">
-                    <span class="font-bold text-lg">Go</span>
-                </div>
-                <h3 class="text-lg font-semibold text-gray-900 mb-2">Go</h3>
-                <p class="text-gray-600">Integration guide for Go applications</p>
-            </a>
-
-            <!-- Java -->
-            <a asp-action="Java" class="block p-6 bg-white border border-gray-200 rounded-lg shadow-md hover:shadow-lg transition-shadow">
-                <div class="flex items-center justify-center h-12 w-12 rounded-md bg-red-600 text-white mb-4">
-                    <span class="font-bold text-lg">Java</span>
-                </div>
-                <h3 class="text-lg font-semibold text-gray-900 mb-2">Java</h3>
-                <p class="text-gray-600">Integration guide for Java applications</p>
-            </a>
-
-            <!-- Ruby -->
-            <a asp-action="Ruby" class="block p-6 bg-white border border-gray-200 rounded-lg shadow-md hover:shadow-lg transition-shadow">
-                <div class="flex items-center justify-center h-12 w-12 rounded-md bg-red-500 text-white mb-4">
-                    <span class="font-bold text-lg">Ruby</span>
-                </div>
-                <h3 class="text-lg font-semibold text-gray-900 mb-2">Ruby</h3>
-                <p class="text-gray-600">Integration guide for Ruby applications</p>
+                <h3 class="text-lg font-bold text-gray-900 group-hover:text-indigo-600 transition-colors">Node.js</h3>
+                <p class="mt-2 text-sm text-gray-500">Official SDK for Node.js, Express, and NestJS.</p>
             </a>
         </div>
+    </div>
 
-        <!-- Introduction Section -->
-        <div class="mt-16 prose prose-indigo max-w-none">
-            <h2>Introduction</h2>
-            <p class="lead">
-                ShitCode is a powerful, no-BS error tracking platform designed to help developers monitor and debug their applications efficiently. We collect your shit bugs so you don't have to.
-            </p>
+    <!-- All Integrations -->
+    <div class="mt-16">
+        <h2 class="text-lg font-semibold text-gray-900 mb-6">All Integrations</h2>
+        <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+            <a asp-action="Python" class="flex items-center p-4 bg-gray-50 rounded-lg border border-transparent hover:bg-white hover:border-gray-200 hover:shadow-sm transition-all duration-200">
+                <div class="h-8 w-8 mr-3">
+                    <svg viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+                        <path fill="#3776AB" d="M64 12.8c-15.9 0-28.8 12.9-28.8 28.8H12.8v22.4h22.4v-6.4h22.4v22.4H35.2v22.4h28.8c15.9 0 28.8-12.9 28.8-28.8V64h22.4V41.6H92.8V19.2H64v-6.4z"/>
+                        <path fill="#FFD43B" d="M64 115.2c15.9 0 28.8-12.9 28.8-28.8H115.2V64H92.8v6.4H70.4V48H92.8V25.6H64c-15.9 0-28.8 12.9-28.8 28.8v12.8H12.8v22.4h22.4v22.4H64v3.2z"/>
+                    </svg>
+                </div>
+                <span class="font-medium text-gray-900">Python</span>
+            </a>
+            <a asp-action="PHP" class="flex items-center p-4 bg-gray-50 rounded-lg border border-transparent hover:bg-white hover:border-gray-200 hover:shadow-sm transition-all duration-200">
+                <div class="h-8 w-8 mr-3">
+                    <svg viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+                        <path fill="#777BB4" d="M64 0C28.7 0 0 28.7 0 64s28.7 64 64 64 64-28.7 64-64S99.3 0 64 0zm29.4 78.4c-3.5 2-7.5 3-11.5 3-4 0-8-1-11.5-3l-20-11.5c-3.5-2-5.5-5.5-5.5-9.5V34.6c0-4 2-7.5 5.5-9.5l20-11.5c3.5-2 7.5-3 11.5-3 4 0 8 1 11.5 3l20 11.5c3.5 2 5.5 5.5 5.5 9.5v22.8c0 4-2 7.5-5.5 9.5l-20 11.5z"/>
+                    </svg>
+                </div>
+                <span class="font-medium text-gray-900">PHP</span>
+            </a>
+            <a asp-action="Go" class="flex items-center p-4 bg-gray-50 rounded-lg border border-transparent hover:bg-white hover:border-gray-200 hover:shadow-sm transition-all duration-200">
+                <div class="h-8 w-8 mr-3">
+                    <svg viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+                        <path fill="#00ADD8" d="M64 0C28.7 0 0 28.7 0 64s28.7 64 64 64 64-28.7 64-64S99.3 0 64 0zm29.4 78.4c-3.5 2-7.5 3-11.5 3-4 0-8-1-11.5-3l-20-11.5c-3.5-2-5.5-5.5-5.5-9.5V34.6c0-4 2-7.5 5.5-9.5l20-11.5c3.5-2 7.5-3 11.5-3 4 0 8 1 11.5 3l20 11.5c3.5 2 5.5 5.5 5.5 9.5v22.8c0 4-2 7.5-5.5 9.5l-20 11.5z"/>
+                    </svg>
+                </div>
+                <span class="font-medium text-gray-900">Go</span>
+            </a>
+            <a asp-action="Java" class="flex items-center p-4 bg-gray-50 rounded-lg border border-transparent hover:bg-white hover:border-gray-200 hover:shadow-sm transition-all duration-200">
+                <div class="h-8 w-8 mr-3">
+                    <svg viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+                        <path fill="#5382A1" d="M64 0C28.7 0 0 28.7 0 64s28.7 64 64 64 64-28.7 64-64S99.3 0 64 0zm29.4 78.4c-3.5 2-7.5 3-11.5 3-4 0-8-1-11.5-3l-20-11.5c-3.5-2-5.5-5.5-5.5-9.5V34.6c0-4 2-7.5 5.5-9.5l20-11.5c3.5-2 7.5-3 11.5-3 4 0 8 1 11.5 3l20 11.5c3.5 2 5.5 5.5 5.5 9.5v22.8c0 4-2 7.5-5.5 9.5l-20 11.5z"/>
+                    </svg>
+                </div>
+                <span class="font-medium text-gray-900">Java</span>
+            </a>
+            <a asp-action="Ruby" class="flex items-center p-4 bg-gray-50 rounded-lg border border-transparent hover:bg-white hover:border-gray-200 hover:shadow-sm transition-all duration-200">
+                <div class="h-8 w-8 mr-3">
+                    <svg viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+                        <path fill="#CC342D" d="M64 0C28.7 0 0 28.7 0 64s28.7 64 64 64 64-28.7 64-64S99.3 0 64 0zm29.4 78.4c-3.5 2-7.5 3-11.5 3-4 0-8-1-11.5-3l-20-11.5c-3.5-2-5.5-5.5-5.5-9.5V34.6c0-4 2-7.5 5.5-9.5l20-11.5c3.5-2 7.5-3 11.5-3 4 0 8 1 11.5 3l20 11.5c3.5 2 5.5 5.5 5.5 9.5v22.8c0 4-2 7.5-5.5 9.5l-20 11.5z"/>
+                    </svg>
+                </div>
+                <span class="font-medium text-gray-900">Ruby</span>
+            </a>
+        </div>
+    </div>
 
-            <h3>Key Features</h3>
-            <ul>
-                <li><strong>Real-time Error Tracking</strong> - Errors appear in your dashboard instantly</li>
-                <li><strong>Multi-Language Support</strong> - Works with any programming language or framework</li>
-                <li><strong>Secure API</strong> - Protected with API keys and security headers</li>
-                <li><strong>Stack Traces</strong> - Full stack trace capture for easy debugging</li>
-                <li><strong>Team Collaboration</strong> - Share dashboards with your team</li>
-                <li><strong>Flexible Plans</strong> - From free tier to enterprise solutions</li>
-            </ul>
-
-            <h3>How It Works</h3>
-            <ol>
-                <li><strong>Create a Project</strong> - Set up a new project in your dashboard</li>
-                <li><strong>Get Your Keys</strong> - Receive an API key and security key</li>
-                <li><strong>Integrate</strong> - Add a few lines of code to your application</li>
-                <li><strong>Monitor</strong> - Watch errors appear in real-time on your dashboard</li>
-            </ol>
-
-            <h3>API Overview</h3>
-            <p>
-                Our API is simple and RESTful. All errors are sent via HTTP POST to your unique webhook URL.
-                Each request must include your security key in the <code>X-Security-Key</code> header.
-            </p>
-
-            <div class="bg-gray-50 p-4 rounded-md">
-                <p class="text-sm font-semibold text-gray-700 mb-2">Example Request</p>
-                <pre class="text-sm"><code>POST https://your-domain.com/api/ingest/{your-api-key}
-Content-Type: application/json
-X-Security-Key: {your-security-key}
-
-{
-  "message": "An error occurred",
-  "stackTrace": "at MyApp.Program.Main() in Program.cs:line 42"
-}</code></pre>
+    <!-- API Reference Preview -->
+    <div class="mt-16 mb-20">
+        <h2 class="text-lg font-semibold text-gray-900 mb-6">API Reference</h2>
+        <div class="bg-gray-900 rounded-2xl overflow-hidden shadow-xl">
+            <div class="flex items-center justify-between px-6 py-4 bg-gray-800 border-b border-gray-700">
+                <div class="flex space-x-2">
+                    <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                    <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                    <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                </div>
+                <div class="text-xs text-gray-400 font-mono">api.shitcode.com</div>
+            </div>
+            <div class="p-6">
+                <div class="flex items-center mb-4">
+                    <span class="px-2 py-1 bg-green-900 text-green-300 text-xs font-bold rounded uppercase tracking-wide mr-3">POST</span>
+                    <code class="text-gray-300 font-mono">/api/ingest/{api_key}</code>
+                </div>
+                <p class="text-gray-400 text-sm mb-6">
+                    Submit an error log to your project. Requires a valid API key in the URL and Security Key in headers.
+                </p>
+                <a href="#" class="inline-flex items-center text-sm font-medium text-indigo-400 hover:text-indigo-300 transition-colors">
+                    View full API documentation
+                    <svg class="ml-1 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                    </svg>
+                </a>
             </div>
         </div>
     </div>

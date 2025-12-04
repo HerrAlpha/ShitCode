@@ -11,6 +11,13 @@ builder.Services.AddDbContext<ErrorLogDashboard.Web.Data.AppDbContext>(options =
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+// Configure routing for lowercase URLs with dashes
+builder.Services.Configure<RouteOptions>(options =>
+{
+    options.LowercaseUrls = true;
+    options.LowercaseQueryStrings = true;
+});
+
 // Add HttpClientFactory for DeepSeek service
 builder.Services.AddHttpClient();
 builder.Services.AddSingleton<ErrorLogDashboard.Web.Services.DeepSeekService>();
