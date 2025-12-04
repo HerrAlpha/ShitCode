@@ -1,4 +1,4 @@
-# ErrorLog Dashboard
+# Bugwise
 
 A comprehensive error tracking dashboard built with ASP.NET Core, featuring real-time error logging, AI-powered summaries, and multi-language support.
 
