@@ -1,6 +1,8 @@
-# Bugwise
+# ShitCode 💩
 
-A comprehensive error tracking dashboard built with ASP.NET Core, featuring real-time error logging, AI-powered summaries, and multi-language support.
+**We Collect Your Shit Bug**
+
+A no-BS error tracking dashboard built with ASP.NET Core, featuring real-time error logging, AI-powered summaries, and multi-language support.
 
 ## Features
 
