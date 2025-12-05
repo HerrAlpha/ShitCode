@@ -38,27 +38,16 @@ public class DeepSeekService
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
             var response = await _httpClient.PostAsync(ApiEndpoint, content);
-            
-            if (!response.IsSuccessStatusCode)
-            {
-                var errorContent = await response.Content.ReadAsStringAsync();
-                Console.WriteLine($"[DeepSeek] API Error: {response.StatusCode} - {errorContent}");
-                return null;
-            }
+            response.EnsureSuccessStatusCode();
 
             var responseJson = await response.Content.ReadAsStringAsync();
             var result = JsonSerializer.Deserialize<DeepSeekResponse>(responseJson, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 
-            var summary = result?.Choices?.FirstOrDefault()?.Message?.Content?.Trim();
-            if (string.IsNullOrEmpty(summary))
-            {
-                Console.WriteLine($"[DeepSeek] API returned success but no content. Response: {responseJson}");
-            }
-            return summary;
+            return result?.Choices?.FirstOrDefault()?.Message?.Content?.Trim();
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"[DeepSeek] Exception: {ex.Message}");
+            Console.WriteLine($"DeepSeek API error: {ex.Message}");
             return null; // Return null if summary generation fails
         }
     }
