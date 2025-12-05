@@ -19,4 +19,12 @@ public class ErrorLog
     public Project? Project { get; set; }
     
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
+    public ErrorStatus Status { get; set; } = ErrorStatus.Open;
+}
+
+public enum ErrorStatus
+{
+    Open,
+    Resolved
 }

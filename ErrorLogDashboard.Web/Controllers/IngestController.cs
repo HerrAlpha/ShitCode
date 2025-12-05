@@ -38,15 +38,34 @@ public class IngestController : ControllerBase
         await _context.SaveChangesAsync();
 
         // Generate AI summary asynchronously (fire and forget)
+        // We need to capture the ID and use a new scope because the request context will be disposed
+        var errorLogId = errorLog.IdErrorLog;
+        var message = errorLog.Message;
+        var stackTrace = errorLog.StackTrace;
+        var serviceProvider = HttpContext.RequestServices;
+
         _ = Task.Run(async () =>
         {
             try
             {
-                var summary = await _deepSeekService.GenerateErrorSummaryAsync(errorLog.Message, errorLog.StackTrace);
-                if (!string.IsNullOrEmpty(summary))
+                // Create a new scope to resolve scoped services like AppDbContext
+                using (var scope = serviceProvider.CreateScope())
                 {
-                    errorLog.Summary = summary;
-                    await _context.SaveChangesAsync();
+                    var scopedContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+                    var deepSeekService = scope.ServiceProvider.GetRequiredService<Services.DeepSeekService>();
+
+                    var summary = await deepSeekService.GenerateErrorSummaryAsync(message, stackTrace);
+                    
+                    if (!string.IsNullOrEmpty(summary))
+                    {
+                        // Re-fetch the error log from the new context
+                        var logToUpdate = await scopedContext.ErrorLogs.FindAsync(errorLogId);
+                        if (logToUpdate != null)
+                        {
+                            logToUpdate.Summary = summary;
+                            await scopedContext.SaveChangesAsync();
+                        }
+                    }
                 }
             }
             catch (Exception ex)

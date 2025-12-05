@@ -182,6 +182,30 @@ public class DashboardController : Controller
         return RedirectToAction("Index");
     }
 
+    [HttpPost]
+    public async Task<IActionResult> ToggleStatus(Guid id)
+    {
+        var userIdString = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (string.IsNullOrEmpty(userIdString) || !Guid.TryParse(userIdString, out var userId))
+        {
+            return RedirectToAction("Login", "Auth");
+        }
+
+        var errorLog = await _context.ErrorLogs
+            .Include(e => e.Project)
+            .FirstOrDefaultAsync(e => e.IdErrorLog == id);
+
+        if (errorLog == null || errorLog.Project?.IdUser != userId)
+        {
+            return RedirectToAction("Index");
+        }
+
+        errorLog.Status = errorLog.Status == ErrorStatus.Open ? ErrorStatus.Resolved : ErrorStatus.Open;
+        await _context.SaveChangesAsync();
+
+        return RedirectToAction("ViewLogs", new { id = errorLog.IdProject });
+    }
+
     private string GenerateApiKey()
     {
         return Convert.ToHexString(RandomNumberGenerator.GetBytes(16)).ToLower();
