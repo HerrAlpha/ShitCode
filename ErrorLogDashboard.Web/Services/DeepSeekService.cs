@@ -27,7 +27,7 @@ public class DeepSeekService
                 model = "deepseek-chat",
                 messages = new[]
                 {
-                    new { role = "system", content = "You are a helpful assistant that summarizes software errors concisely. Provide a brief, technical summary in 1-2 sentences that explains what went wrong and potential causes." },
+                    new { role = "system", content = "You are a helpful assistant that analyzes software errors. Provide a concise technical summary of what went wrong, followed by 1-2 actionable solutions or fixes. Keep it brief and developer-focused." },
                     new { role = "user", content = prompt }
                 },
                 max_tokens = 150,

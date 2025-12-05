@@ -81,8 +81,8 @@
                                         </div>
                                         <div class="ml-3 flex-1">
                                             <h4 class="text-sm font-bold text-indigo-900">AI Analysis</h4>
-                                            <div class="mt-1 text-sm text-indigo-800 prose prose-sm max-w-none">
-                                                @error.Summary
+                                            <div class="mt-1 text-sm text-indigo-800 prose prose-sm max-w-none ai-summary-content" data-content="@error.Summary">
+                                                <!-- Content will be rendered by JS -->
                                             </div>
                                         </div>
                                     </div>
@@ -106,3 +106,17 @@
         </div>
     }
 </div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.ai-summary-content').forEach(function(el) {
+                const markdown = el.getAttribute('data-content');
+                if (markdown) {
+                    el.innerHTML = marked.parse(markdown);
+                }
+            });
+        });
+    </script>
+}

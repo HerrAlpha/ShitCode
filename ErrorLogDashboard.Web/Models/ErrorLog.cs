@@ -11,7 +11,10 @@ public class ErrorLog
     [Required]
     public string Message { get; set; } = string.Empty;
     
+    [Column(TypeName = "longtext")]
     public string? StackTrace { get; set; }
+    
+    [Column(TypeName = "longtext")]
     public string? Summary { get; set; } // AI-generated summary
     
     public Guid IdProject { get; set; }
