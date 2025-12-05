@@ -58,19 +58,30 @@ public class IngestController : ControllerBase
                     
                     if (!string.IsNullOrEmpty(summary))
                     {
+                        Console.WriteLine($"[AI] Summary generated for Error {errorLogId}: {summary.Substring(0, Math.Min(summary.Length, 50))}...");
                         // Re-fetch the error log from the new context
                         var logToUpdate = await scopedContext.ErrorLogs.FindAsync(errorLogId);
                         if (logToUpdate != null)
                         {
                             logToUpdate.Summary = summary;
                             await scopedContext.SaveChangesAsync();
+                            Console.WriteLine($"[AI] Summary saved to database for Error {errorLogId}");
                         }
+                        else
+                        {
+                            Console.WriteLine($"[AI] ErrorLog {errorLogId} not found in database during update.");
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine($"[AI] Summary was null or empty for Error {errorLogId}");
                     }
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Failed to generate summary: {ex.Message}");
+                Console.WriteLine($"[AI] Failed to generate summary: {ex.Message}");
+                Console.WriteLine(ex.StackTrace);
             }
         });
 
