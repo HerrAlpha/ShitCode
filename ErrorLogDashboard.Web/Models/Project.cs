@@ -25,4 +25,5 @@ public class Project
     public User? User { get; set; }
     
     public List<ErrorLog> ErrorLogs { get; set; } = new();
+    public List<WebhookConfig> Webhooks { get; set; } = new();
 }

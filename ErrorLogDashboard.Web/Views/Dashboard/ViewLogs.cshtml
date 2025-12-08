@@ -15,13 +15,22 @@
     </div>
 
     <div class="bg-white shadow overflow-hidden sm:rounded-lg mb-6">
-        <div class="px-4 py-5 sm:px-6">
-            <h3 class="text-lg leading-6 font-medium text-gray-900">
-                @Model.Name
-            </h3>
-            <p class="mt-1 max-w-2xl text-sm text-gray-500">
-                Total Errors: <span class="font-semibold">@Model.ErrorLogs.Count</span>
-            </p>
+        <div class="px-4 py-5 sm:px-6 flex justify-between items-center">
+            <div>
+                <h3 class="text-lg leading-6 font-medium text-gray-900">
+                    @Model.Name
+                </h3>
+                <p class="mt-1 max-w-2xl text-sm text-gray-500">
+                    Total Errors: <span class="font-semibold">@Model.ErrorLogs.Count</span>
+                </p>
+            </div>
+            <a asp-controller="Webhook" asp-action="Configure" asp-route-projectId="@Model.IdProject" 
+               class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                <svg class="h-5 w-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+                </svg>
+                Configure Webhooks
+            </a>
         </div>
     </div>
 
@@ -84,6 +93,9 @@
                                                 <h4 class="text-sm font-bold text-indigo-900">AI Analysis & Solutions</h4>
                                                 <p class="text-xs text-indigo-700 mt-0.5">Click to view detailed breakdown</p>
                                             </div>
+                                            <div class="priority-container flex-shrink-0 mr-3">
+                                                <!-- Priority badge will be inserted here by JavaScript -->
+                                            </div>
                                             <div class="flex-shrink-0">
                                                 <svg class="h-5 w-5 text-indigo-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
@@ -122,11 +134,46 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             document.querySelectorAll('.ai-summary-content').forEach(function(el) {
-                const markdown = el.getAttribute('data-content');
-                if (markdown) {
-                    el.innerHTML = marked.parse(markdown);
+                const rawContent = el.getAttribute('data-content');
+                if (!rawContent) return;
+                
+                try {
+                    // Try to parse as JSON first (new format)
+                    const jsonData = JSON.parse(rawContent);
+                    
+                    // Display priority badge
+                    const priorityContainer = el.closest('details').querySelector('.priority-container');
+                    if (priorityContainer && jsonData.priority) {
+                        const priorityBadge = createPriorityBadge(jsonData.priority);
+                        priorityContainer.innerHTML = priorityBadge;
+                    }
+                    
+                    // Display summary (parse as markdown)
+                    if (jsonData.summary) {
+                        el.innerHTML = marked.parse(jsonData.summary);
+                    }
+                } catch (e) {
+                    // If not JSON, treat as plain text (backward compatibility)
+                    el.innerHTML = marked.parse(rawContent);
                 }
             });
         });
+        
+        function createPriorityBadge(priority) {
+            const colors = {
+                'Low': 'bg-gray-100 text-gray-800 border-gray-300',
+                'Medium': 'bg-yellow-100 text-yellow-800 border-yellow-300',
+                'High': 'bg-orange-100 text-orange-800 border-orange-300',
+                'Urgent': 'bg-red-100 text-red-800 border-red-300'
+            };
+            
+            const colorClass = colors[priority] || colors['Medium'];
+            return `<span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold border ${colorClass}">
+                        <svg class="w-4 h-4 mr-1.5" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                        </svg>
+                        ${priority} Priority
+                    </span>`;
+        }
     </script>
 }

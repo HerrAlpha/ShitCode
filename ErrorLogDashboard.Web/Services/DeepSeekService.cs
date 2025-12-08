@@ -27,10 +27,23 @@ public class DeepSeekService
                 model = "deepseek-chat",
                 messages = new[]
                 {
-                    new { role = "system", content = "You are a helpful assistant that analyzes software errors. Provide a concise technical summary of what went wrong, followed by 1-2 actionable solutions or fixes. Keep it brief and developer-focused." },
+                    new { role = "system", content = @"You are a helpful assistant that analyzes software errors. 
+Analyze the error and provide your response in this EXACT JSON format:
+{
+  ""priority"": ""Low|Medium|High|Urgent"",
+  ""summary"": ""Brief technical summary and actionable solutions""
+}
+
+Priority Guidelines:
+- Low: Minor issues, warnings, deprecated APIs, cosmetic bugs
+- Medium: Functional bugs that don't block core features, performance degradation
+- High: Core functionality broken, data integrity issues, security vulnerabilities
+- Urgent: Critical system failures, data loss, security breaches, production down
+
+Keep the summary concise and developer-focused. Include what went wrong and 1-2 actionable solutions." },
                     new { role = "user", content = prompt }
                 },
-                max_tokens = 150,
+                max_tokens = 200,
                 temperature = 0.7
             };
 
@@ -43,7 +56,10 @@ public class DeepSeekService
             var responseJson = await response.Content.ReadAsStringAsync();
             var result = JsonSerializer.Deserialize<DeepSeekResponse>(responseJson, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 
-            return result?.Choices?.FirstOrDefault()?.Message?.Content?.Trim();
+            var aiContent = result?.Choices?.FirstOrDefault()?.Message?.Content?.Trim();
+            
+            // Return the AI response (should be JSON, but return as-is)
+            return aiContent;
         }
         catch (Exception ex)
         {

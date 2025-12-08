@@ -9,10 +9,11 @@ public class AppDbContext : DbContext
     {
     }
 
-    public DbSet<ErrorLog> ErrorLogs { get; set; }
-    public DbSet<Project> Projects { get; set; }
     public DbSet<User> Users { get; set; }
+    public DbSet<Project> Projects { get; set; }
+    public DbSet<ErrorLog> ErrorLogs { get; set; }
     public DbSet<SubscriptionPlan> SubscriptionPlans { get; set; }
+    public DbSet<WebhookConfig> WebhookConfigs { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

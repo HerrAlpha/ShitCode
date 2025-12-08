@@ -20,7 +20,10 @@ builder.Services.Configure<RouteOptions>(options =>
 
 // Add HttpClientFactory for DeepSeek service
 builder.Services.AddHttpClient();
+
+// Register services
 builder.Services.AddSingleton<ErrorLogDashboard.Web.Services.DeepSeekService>();
+builder.Services.AddScoped<ErrorLogDashboard.Web.Services.WebhookService>();
 
 // Add Authentication
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)

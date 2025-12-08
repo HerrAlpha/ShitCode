@@ -35,6 +35,28 @@
         }
     </div>
     
+    <!-- Statistics Cards -->
+    <div class="grid grid-cols-1 gap-5 sm:grid-cols-3 mb-6">
+        <div class="bg-white overflow-hidden shadow rounded-lg">
+            <div class="px-4 py-5 sm:p-6">
+                <dt class="text-sm font-medium text-gray-500 truncate">Total Open Errors</dt>
+                <dd class="mt-1 text-3xl font-semibold text-red-600">@Model.TotalOpenErrors</dd>
+            </div>
+        </div>
+        <div class="bg-white overflow-hidden shadow rounded-lg">
+            <div class="px-4 py-5 sm:p-6">
+                <dt class="text-sm font-medium text-gray-500 truncate">Total Resolved Errors</dt>
+                <dd class="mt-1 text-3xl font-semibold text-green-600">@Model.TotalResolvedErrors</dd>
+            </div>
+        </div>
+        <div class="bg-white overflow-hidden shadow rounded-lg">
+            <div class="px-4 py-5 sm:p-6">
+                <dt class="text-sm font-medium text-gray-500 truncate">Resolution Rate</dt>
+                <dd class="mt-1 text-3xl font-semibold text-indigo-600">@Model.OverallResolvePercentage.ToString("F1")%</dd>
+            </div>
+        </div>
+    </div>
+    
     <!-- Search Projects -->
     <div class="mb-6">
         <div class="relative">
@@ -74,6 +96,20 @@
                         <div>
                             <dt class="text-sm font-medium text-gray-500 truncate">Last 24h</dt>
                             <dd class="mt-1 text-3xl font-semibold text-gray-900">@project.ErrorsLast24Hours</dd>
+                        </div>
+                    </div>
+                    <div class="mt-4 grid grid-cols-3 gap-4 pt-4 border-t border-gray-200">
+                        <div>
+                            <dt class="text-xs font-medium text-gray-500 truncate">Open</dt>
+                            <dd class="mt-1 text-xl font-semibold text-red-600">@project.OpenErrors</dd>
+                        </div>
+                        <div>
+                            <dt class="text-xs font-medium text-gray-500 truncate">Resolved</dt>
+                            <dd class="mt-1 text-xl font-semibold text-green-600">@project.ResolvedErrors</dd>
+                        </div>
+                        <div>
+                            <dt class="text-xs font-medium text-gray-500 truncate">Resolved %</dt>
+                            <dd class="mt-1 text-xl font-semibold text-indigo-600">@project.ResolvePercentage.ToString("F0")%</dd>
                         </div>
                     </div>
                     <div class="mt-4 border-t border-gray-200 pt-4">

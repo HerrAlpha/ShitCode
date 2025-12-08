@@ -36,21 +36,42 @@ public class DashboardController : Controller
         if (user == null) return RedirectToAction("Login", "Auth");
 
         var projects = user.Projects;
+        
+        var projectSummaries = projects.Select(p => 
+        {
+            var openCount = p.ErrorLogs.Count(e => e.Status == ErrorStatus.Open);
+            var resolvedCount = p.ErrorLogs.Count(e => e.Status == ErrorStatus.Resolved);
+            var totalCount = p.ErrorLogs.Count;
+            var resolvePercentage = totalCount > 0 ? (resolvedCount * 100.0 / totalCount) : 0;
+            
+            return new ProjectSummaryViewModel
+            {
+                Id = p.IdProject,
+                Name = p.Name,
+                TechStack = p.TechStack,
+                TotalErrors = totalCount,
+                ErrorsLast24Hours = p.ErrorLogs.Count(e => e.CreatedAt >= DateTime.UtcNow.AddHours(-24)),
+                OpenErrors = openCount,
+                ResolvedErrors = resolvedCount,
+                ResolvePercentage = resolvePercentage,
+                ApiKey = p.ApiKey,
+                SecurityKey = p.SecurityKey
+            };
+        }).ToList();
+        
+        var totalOpen = projectSummaries.Sum(p => p.OpenErrors);
+        var totalResolved = projectSummaries.Sum(p => p.ResolvedErrors);
+        var totalErrors = totalOpen + totalResolved;
+        var overallResolvePercentage = totalErrors > 0 ? (totalResolved * 100.0 / totalErrors) : 0;
             
         var viewModel = new DashboardViewModel
         {
             SubscriptionPlan = user.SubscriptionPlan!,
             ProjectCount = projects.Count,
-            Projects = projects.Select(p => new ProjectSummaryViewModel
-            {
-                Id = p.IdProject,
-                Name = p.Name,
-                TechStack = p.TechStack,
-                TotalErrors = p.ErrorLogs.Count,
-                ErrorsLast24Hours = p.ErrorLogs.Count(e => e.CreatedAt >= DateTime.UtcNow.AddHours(-24)),
-                ApiKey = p.ApiKey,
-                SecurityKey = p.SecurityKey
-            }).ToList()
+            Projects = projectSummaries,
+            TotalOpenErrors = totalOpen,
+            TotalResolvedErrors = totalResolved,
+            OverallResolvePercentage = overallResolvePercentage
         };
 
         return View(viewModel);
@@ -222,6 +243,9 @@ public class DashboardViewModel
     public SubscriptionPlan SubscriptionPlan { get; set; } = new();
     public int ProjectCount { get; set; }
     public List<ProjectSummaryViewModel> Projects { get; set; } = new();
+    public int TotalOpenErrors { get; set; }
+    public int TotalResolvedErrors { get; set; }
+    public double OverallResolvePercentage { get; set; }
 }
 
 public class ProjectSummaryViewModel
@@ -231,6 +255,9 @@ public class ProjectSummaryViewModel
     public string TechStack { get; set; } = string.Empty;
     public int TotalErrors { get; set; }
     public int ErrorsLast24Hours { get; set; }
+    public int OpenErrors { get; set; }
+    public int ResolvedErrors { get; set; }
+    public double ResolvePercentage { get; set; }
     public string ApiKey { get; set; } = string.Empty;
     public string SecurityKey { get; set; } = string.Empty;
 }

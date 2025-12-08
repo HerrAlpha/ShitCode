@@ -11,11 +11,16 @@ public class IngestController : ControllerBase
 {
     private readonly AppDbContext _context;
     private readonly Services.DeepSeekService _deepSeekService;
+    private readonly Services.WebhookService _webhookService;
 
-    public IngestController(AppDbContext context, Services.DeepSeekService deepSeekService)
+    public IngestController(
+        AppDbContext context, 
+        Services.DeepSeekService deepSeekService,
+        Services.WebhookService webhookService)
     {
         _context = context;
         _deepSeekService = deepSeekService;
+        _webhookService = webhookService;
     }
 
     [HttpPost("{apiKey}")]
@@ -36,6 +41,9 @@ public class IngestController : ControllerBase
 
         _context.ErrorLogs.Add(errorLog);
         await _context.SaveChangesAsync();
+
+        // Trigger webhooks asynchronously
+        _ = _webhookService.TriggerWebhooksAsync(project.IdProject, errorLog);
 
         // Generate AI summary asynchronously (fire and forget)
         // We need to capture the ID and use a new scope because the request context will be disposed
