@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Configure the application to listen on port 5009
+builder.WebHost.UseUrls("http://0.0.0.0:5009");
+
 // Add services to the container.
 builder.Services.AddDbContext<ErrorLogDashboard.Web.Data.AppDbContext>(options =>
     options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"),
