@@ -21,14 +21,14 @@ public static class DataSeeder
             IdUser = Guid.NewGuid(),
             Name = "Admin User",
             Email = "admin@example.com",
-            PasswordHash = "hashed_password",
+            PasswordHash = BCrypt.Net.BCrypt.HashPassword("admin123"),
             Role = "Admin",
             IdSubscriptionPlan = platinumPlan.IdSubscriptionPlan
         };
 
-        var freeUser = new User { IdUser = Guid.NewGuid(), Name = "Free User", Email = "free@example.com", PasswordHash = "pwd", Role = "User", IdSubscriptionPlan = freePlan.IdSubscriptionPlan };
-        var basicUser = new User { IdUser = Guid.NewGuid(), Name = "Basic User", Email = "basic@example.com", PasswordHash = "pwd", Role = "User", IdSubscriptionPlan = basicPlan.IdSubscriptionPlan };
-        var proUser = new User { IdUser = Guid.NewGuid(), Name = "Pro User", Email = "pro@example.com", PasswordHash = "pwd", Role = "User", IdSubscriptionPlan = proPlan.IdSubscriptionPlan };
+        var freeUser = new User { IdUser = Guid.NewGuid(), Name = "Free User", Email = "free@example.com", PasswordHash = BCrypt.Net.BCrypt.HashPassword("free123"), Role = "User", IdSubscriptionPlan = freePlan.IdSubscriptionPlan };
+        var basicUser = new User { IdUser = Guid.NewGuid(), Name = "Basic User", Email = "basic@example.com", PasswordHash = BCrypt.Net.BCrypt.HashPassword("basic123"), Role = "User", IdSubscriptionPlan = basicPlan.IdSubscriptionPlan };
+        var proUser = new User { IdUser = Guid.NewGuid(), Name = "Pro User", Email = "pro@example.com", PasswordHash = BCrypt.Net.BCrypt.HashPassword("pro123"), Role = "User", IdSubscriptionPlan = proPlan.IdSubscriptionPlan };
 
         context.Users.AddRange(admin, freeUser, basicUser, proUser);
         context.SaveChanges();

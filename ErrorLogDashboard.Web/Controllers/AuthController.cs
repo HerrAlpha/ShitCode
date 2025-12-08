@@ -31,7 +31,7 @@ public class AuthController : Controller
             .Include(u => u.SubscriptionPlan)
             .FirstOrDefaultAsync(u => u.Email == email);
 
-        if (user == null || user.PasswordHash != password) // In real app, use hashing
+        if (user == null || !BCrypt.Net.BCrypt.Verify(password, user.PasswordHash))
         {
             ModelState.AddModelError("", "Invalid email or password");
             return View();
@@ -80,7 +80,7 @@ public class AuthController : Controller
             IdUser = Guid.NewGuid(),
             Name = name,
             Email = email,
-            PasswordHash = password, // In real app, use hashing
+            PasswordHash = BCrypt.Net.BCrypt.HashPassword(password),
             Role = "User",
             IdSubscriptionPlan = freePlan.IdSubscriptionPlan
         };
