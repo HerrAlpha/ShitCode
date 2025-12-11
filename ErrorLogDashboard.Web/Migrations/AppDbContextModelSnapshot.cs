@@ -20,8 +20,6 @@ namespace ErrorLogDashboard.Web.Migrations
                 .HasAnnotation("ProductVersion", "8.0.11")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
-            MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
-
             modelBuilder.Entity("ErrorLogDashboard.Web.Models.ErrorLog", b =>
                 {
                     b.Property<Guid>("IdErrorLog")

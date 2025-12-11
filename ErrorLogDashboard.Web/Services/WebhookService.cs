@@ -148,10 +148,10 @@ public class WebhookService
                     color = status == "Resolved" ? 3066993 : 15158332, // Green for resolved, red for new
                     fields = new[]
                     {
-                        new { name = "Error Message", value = message?.Length > 256 ? message.Substring(0, 253) + "..." : message, inline = false },
-                        new { name = "Status", value = status, inline = true },
-                        new { name = "Error ID", value = errorId, inline = true },
-                        new { name = "Stack Trace", value = string.IsNullOrEmpty(truncatedStack) ? "No stack trace available" : $"```{truncatedStack}```", inline = false }
+                        new { name = "Error Message", value = (string?)(message?.Length > 256 ? message.Substring(0, 253) + "..." : message), inline = false },
+                        new { name = "Status", value = (string?)status, inline = true },
+                        new { name = "Error ID", value = (string?)errorId, inline = true },
+                        new { name = "Stack Trace", value = (string?)(string.IsNullOrEmpty(truncatedStack) ? "No stack trace available" : $"```{truncatedStack}```"), inline = false }
                     },
                     timestamp = createdAt.ToString("o"),
                     footer = new { text = "ShitCode Error Dashboard" }
