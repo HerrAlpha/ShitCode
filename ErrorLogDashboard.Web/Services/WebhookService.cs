@@ -210,12 +210,36 @@ _ShitCode Error Dashboard_";
             var client = _httpClientFactory.CreateClient();
             client.Timeout = TimeSpan.FromSeconds(10);
 
-            var testPayload = new
+            object testPayload;
+            
+            // Detect webhook type by URL and send appropriate test payload
+            if (url.Contains("discord.com/api/webhooks", StringComparison.OrdinalIgnoreCase))
             {
-                @event = "webhook.test",
-                timestamp = DateTime.UtcNow,
-                message = "This is a test webhook from ShitCode Error Dashboard"
-            };
+                // Discord webhook - needs 'content' or 'embeds'
+                testPayload = new
+                {
+                    content = "✅ **Test Connection Successful!**\n\nThis is a test message from ShitCode Error Dashboard. Your Discord webhook is configured correctly!"
+                };
+            }
+            else if (url.Contains("api.telegram.org", StringComparison.OrdinalIgnoreCase))
+            {
+                // Telegram webhook - needs 'text'
+                testPayload = new
+                {
+                    text = "✅ *Test Connection Successful!*\n\nThis is a test message from ShitCode Error Dashboard. Your Telegram webhook is configured correctly!",
+                    parse_mode = "Markdown"
+                };
+            }
+            else
+            {
+                // Generic webhook - original format
+                testPayload = new
+                {
+                    @event = "webhook.test",
+                    timestamp = DateTime.UtcNow,
+                    message = "This is a test webhook from ShitCode Error Dashboard"
+                };
+            }
 
             var json = JsonSerializer.Serialize(testPayload);
             var content = new StringContent(json, Encoding.UTF8, "application/json");

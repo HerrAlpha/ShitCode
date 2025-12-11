@@ -129,12 +129,24 @@ public class WebhookController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> Test(string url, string? secretToken)
+    public async Task<IActionResult> Test([FromBody] WebhookTestRequest request)
     {
-        var success = await _webhookService.TestWebhookAsync(url, secretToken);
+        if (string.IsNullOrEmpty(request.Url))
+        {
+            return Json(new { success = false, message = "Please provide a valid webhook URL." });
+        }
+
+        var success = await _webhookService.TestWebhookAsync(request.Url, request.SecretToken);
         
         return Json(new { success, message = success 
             ? "Webhook test successful! Check your endpoint." 
             : "Webhook test failed. Please verify the URL." });
     }
 }
+
+public class WebhookTestRequest
+{
+    public string Url { get; set; } = string.Empty;
+    public string? SecretToken { get; set; }
+}
+
