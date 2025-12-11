@@ -48,4 +48,14 @@ public class DocsController : Controller
     {
         return View();
     }
+
+    public IActionResult Discord()
+    {
+        return View();
+    }
+
+    public IActionResult Telegram()
+    {
+        return View();
+    }
 }

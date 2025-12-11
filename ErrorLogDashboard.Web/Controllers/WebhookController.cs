@@ -41,7 +41,7 @@ public class WebhookController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create(Guid projectId, string name, string url, string? secretToken)
+    public async Task<IActionResult> Create(Guid projectId, string name, string url, string? secretToken, WebhookType type = WebhookType.Generic)
     {
         var userIdString = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
         if (string.IsNullOrEmpty(userIdString) || !Guid.TryParse(userIdString, out var userId))
@@ -71,6 +71,7 @@ public class WebhookController : Controller
             Name = name,
             Url = url,
             SecretToken = secretToken,
+            Type = type,
             IsActive = true
         };
 

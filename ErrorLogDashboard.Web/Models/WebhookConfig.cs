@@ -3,6 +3,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ErrorLogDashboard.Web.Models;
 
+public enum WebhookType
+{
+    Generic = 0,
+    Discord = 1,
+    Telegram = 2
+}
+
 public class WebhookConfig
 {
     [Key]
@@ -15,6 +22,8 @@ public class WebhookConfig
     public string Name { get; set; } = string.Empty;
     
     public string? SecretToken { get; set; }
+    
+    public WebhookType Type { get; set; } = WebhookType.Generic;
     
     public bool IsActive { get; set; } = true;
     

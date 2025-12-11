@@ -1,0 +1,168 @@
+@{
+    ViewData["Title"] = "Discord Webhook Integration";
+    Layout = "_DocsLayout";
+}
+
+<div class="prose max-w-none">
+    <h1>Discord Webhook Integration</h1>
+    
+    <p class="lead">
+        Configure your ErrorLogDashboard to send error notifications directly to your Discord server using Discord webhooks.
+    </p>
+
+    <div class="bg-blue-50 border-l-4 border-blue-400 p-4 my-6">
+        <div class="flex">
+            <div class="flex-shrink-0">
+                <svg class="h-5 w-5 text-blue-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+                </svg>
+            </div>
+            <div class="ml-3">
+                <p class="text-sm text-blue-700">
+                    Webhook notifications appear as rich embed cards in your Discord channel with formatted error details.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <h2>Step 1: Create a Discord Webhook URL</h2>
+    
+    <ol>
+        <li>Open your Discord server and go to <strong>Server Settings</strong></li>
+        <li>Navigate to <strong>Integrations</strong> → <strong>Webhooks</strong></li>
+        <li>Click <strong>New Webhook</strong> or <strong>Create Webhook</strong></li>
+        <li>Configure your webhook:
+            <ul>
+                <li><strong>Name:</strong> ShitCode Error Dashboard (or any name you prefer)</li>
+                <li><strong>Channel:</strong> Select the channel where errors should be posted</li>
+                <li>Optionally upload an avatar for the webhook</li>
+            </ul>
+        </li>
+        <li>Click <strong>Copy Webhook URL</strong></li>
+    </ol>
+
+    <p>Your webhook URL will look like:</p>
+    <pre><code>https://discord.com/api/webhooks/1234567890/AbCdEfGhIjKlMnOpQrStUvWxYz</code></pre>
+
+    <h2>Step 2: Configure Webhook in ErrorLogDashboard</h2>
+
+    <ol>
+        <li>Navigate to your project in the ErrorLogDashboard</li>
+        <li>Click on <strong>Webhooks</strong> or <strong>Configure Webhooks</strong></li>
+        <li>Fill in the webhook form:
+            <ul>
+                <li><strong>Name:</strong> Discord Notifications</li>
+                <li><strong>Webhook URL:</strong> Paste the Discord webhook URL from Step 1</li>
+                <li><strong>Webhook Type:</strong> Select <strong>Discord</strong> from the dropdown</li>
+                <li><strong>Secret Token:</strong> Leave empty (not used for Discord)</li>
+            </ul>
+        </li>
+        <li>Click <strong>Add Webhook</strong></li>
+    </ol>
+
+    <h2>Step 3: Test Your Webhook</h2>
+
+    <p>You can test the webhook connection before saving:</p>
+    <ol>
+        <li>After entering the Discord webhook URL, click <strong>Test Connection</strong></li>
+        <li>Check your Discord channel for a test message</li>
+        <li>If successful, you'll see a confirmation message</li>
+    </ol>
+
+    <h2>Discord Message Format</h2>
+
+    <p>When an error occurs, your Discord channel will receive a rich embed message containing:</p>
+
+    <ul>
+        <li><strong>Title:</strong> 🚨 New Error Detected</li>
+        <li><strong>Description:</strong> AI-generated summary of the error</li>
+        <li><strong>Color:</strong> Red for new errors, green for resolved</li>
+        <li><strong>Fields:</strong>
+            <ul>
+                <li>Error Message</li>
+                <li>Status (Open/InProgress/Resolved)</li>
+                <li>Error ID (for tracking)</li>
+                <li>Stack Trace (formatted with code block)</li>
+            </ul>
+        </li>
+        <li><strong>Timestamp:</strong> When the error occurred</li>
+        <li><strong>Footer:</strong> ShitCode Error Dashboard</li>
+    </ul>
+
+    <h3>Example Discord Embed</h3>
+
+    <div class="bg-gray-100 p-4 rounded-lg my-4">
+        <div class="border-l-4 border-red-500 bg-white p-4 shadow">
+            <h4 class="text-lg font-bold text-gray-900">🚨 New Error Detected</h4>
+            <p class="text-gray-700 mt-2">NullReferenceException: Object reference not set to an instance</p>
+            
+            <div class="mt-4 grid grid-cols-2 gap-2">
+                <div>
+                    <p class="text-xs font-semibold text-gray-600">Error Message</p>
+                    <p class="text-sm text-gray-800">Object reference not set...</p>
+                </div>
+                <div>
+                    <p class="text-xs font-semibold text-gray-600">Status</p>
+                    <p class="text-sm text-gray-800">Open</p>
+                </div>
+            </div>
+            
+            <div class="mt-2">
+                <p class="text-xs font-semibold text-gray-600">Stack Trace</p>
+                <pre class="text-xs bg-gray-900 text-gray-100 p-2 rounded mt-1">at MyApp.Service.GetUser(...)
+at MyApp.Controller.Index(...)</pre>
+            </div>
+            
+            <p class="text-xs text-gray-500 mt-3">ShitCode Error Dashboard • 2025-12-10 15:23:31 UTC</p>
+        </div>
+    </div>
+
+    <h2>Troubleshooting</h2>
+
+    <h3>Webhook test fails</h3>
+    <ul>
+        <li>Verify the webhook URL is correct and complete</li>
+        <li>Make sure you selected "Discord" as the webhook type</li>
+        <li>Check that the webhook hasn't been deleted in Discord</li>
+        <li>Ensure the bot has permissions to post in the target channel</li>
+    </ul>
+
+    <h3>No messages appear in Discord</h3>
+    <ul>
+        <li>Check that the webhook is marked as "Active" in the dashboard</li>
+        <li>Trigger a test error to verify the webhook is being called</li>
+        <li>Check Discord channel permissions</li>
+    </ul>
+
+    <h2>Best Practices</h2>
+
+    <ul>
+        <li>Create separate channels for different environments (production, staging, development)</li>
+        <li>Use channel notifications settings to control @@mentions for critical errors</li>
+        <li>Set up multiple webhooks for different error severity levels if needed</li>
+        <li>Regularly review and clean up old webhooks in Discord's integration settings</li>
+    </ul>
+
+    <div class="bg-green-50 border-l-4 border-green-400 p-4 my-6">
+        <div class="flex">
+            <div class="flex-shrink-0">
+                <svg class="h-5 w-5 text-green-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                </svg>
+            </div>
+            <div class="ml-3">
+                <p class="text-sm text-green-700">
+                    <strong>Pro Tip:</strong> You can use Discord's role mentions in channel settings to automatically notify your team when critical errors occur.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <h2>Next Steps</h2>
+
+    <ul>
+        <li><a asp-controller="Docs" asp-action="Telegram">Set up Telegram notifications</a></li>
+        <li><a asp-controller="Docs" asp-action="Index">View all integration guides</a></li>
+        <li><a asp-controller="Dashboard" asp-action="Index">Return to Dashboard</a></li>
+    </ul>
+</div>

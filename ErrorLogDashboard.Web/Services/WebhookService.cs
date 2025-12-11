@@ -73,11 +73,27 @@ public class WebhookService
             var client = _httpClientFactory.CreateClient();
             client.Timeout = TimeSpan.FromSeconds(10);
 
-            var json = JsonSerializer.Serialize(payload);
+            object formattedPayload;
+            
+            // Format message based on webhook type
+            switch (webhook.Type)
+            {
+                case WebhookType.Discord:
+                    formattedPayload = FormatDiscordMessage(payload);
+                    break;
+                case WebhookType.Telegram:
+                    formattedPayload = FormatTelegramMessage(payload);
+                    break;
+                default:
+                    formattedPayload = payload;
+                    break;
+            }
+
+            var json = JsonSerializer.Serialize(formattedPayload);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            // Add secret token if configured
-            if (!string.IsNullOrEmpty(webhook.SecretToken))
+            // Add secret token if configured (not used for Discord/Telegram)
+            if (!string.IsNullOrEmpty(webhook.SecretToken) && webhook.Type == WebhookType.Generic)
             {
                 client.DefaultRequestHeaders.Add("X-Webhook-Secret", webhook.SecretToken);
             }
@@ -98,6 +114,93 @@ public class WebhookService
             _logger.LogError(ex, "Failed to send webhook {WebhookId} to {Url}", 
                 webhook.IdWebhook, webhook.Url);
         }
+    }
+
+    private object FormatDiscordMessage(object payload)
+    {
+        // Extract error data from generic payload
+        var payloadJson = JsonSerializer.Serialize(payload);
+        using var doc = JsonDocument.Parse(payloadJson);
+        var root = doc.RootElement;
+        
+        var error = root.GetProperty("error");
+        var errorId = error.GetProperty("id").GetString();
+        var message = error.GetProperty("message").GetString();
+        var stackTrace = error.TryGetProperty("stackTrace", out var st) ? st.GetString() : null;
+        var summary = error.TryGetProperty("summary", out var sum) ? sum.GetString() : null;
+        var status = error.GetProperty("status").GetString();
+        var createdAt = error.GetProperty("createdAt").GetDateTime();
+        
+        // Truncate stack trace for Discord (max 1024 chars per field)
+        var truncatedStack = stackTrace?.Length > 1000 
+            ? stackTrace.Substring(0, 1000) + "..." 
+            : stackTrace;
+        
+        // Create Discord embed format
+        return new
+        {
+            embeds = new[]
+            {
+                new
+                {
+                    title = "🚨 New Error Detected",
+                    description = summary ?? message,
+                    color = status == "Resolved" ? 3066993 : 15158332, // Green for resolved, red for new
+                    fields = new[]
+                    {
+                        new { name = "Error Message", value = message?.Length > 256 ? message.Substring(0, 253) + "..." : message, inline = false },
+                        new { name = "Status", value = status, inline = true },
+                        new { name = "Error ID", value = errorId, inline = true },
+                        new { name = "Stack Trace", value = string.IsNullOrEmpty(truncatedStack) ? "No stack trace available" : $"```{truncatedStack}```", inline = false }
+                    },
+                    timestamp = createdAt.ToString("o"),
+                    footer = new { text = "ShitCode Error Dashboard" }
+                }
+            }
+        };
+    }
+
+    private object FormatTelegramMessage(object payload)
+    {
+        // Extract error data from generic payload
+        var payloadJson = JsonSerializer.Serialize(payload);
+        using var doc = JsonDocument.Parse(payloadJson);
+        var root = doc.RootElement;
+        
+        var error = root.GetProperty("error");
+        var errorId = error.GetProperty("id").GetString();
+        var message = error.GetProperty("message").GetString();
+        var stackTrace = error.TryGetProperty("stackTrace", out var st) ? st.GetString() : null;
+        var summary = error.TryGetProperty("summary", out var sum) ? sum.GetString() : null;
+        var status = error.GetProperty("status").GetString();
+        var createdAt = error.GetProperty("createdAt").GetDateTime();
+        
+        // Truncate for Telegram (max 4096 chars)
+        var truncatedStack = stackTrace?.Length > 500 
+            ? stackTrace.Substring(0, 500) + "..." 
+            : stackTrace;
+        
+        // Create Telegram message format with markdown
+        var text = $@"🚨 *New Error Detected*
+
+*Error Message:* {message}
+*Status:* {status}
+*Error ID:* `{errorId}`
+*Time:* {createdAt:yyyy-MM-dd HH:mm:ss} UTC
+
+{(string.IsNullOrEmpty(summary) ? "" : $"*Summary:* {summary}\n")}
+*Stack Trace:*
+```
+{truncatedStack ?? "No stack trace available"}
+```
+
+_ShitCode Error Dashboard_";
+        
+        return new
+        {
+            text = text,
+            parse_mode = "Markdown"
+        };
     }
 
     public async Task<bool> TestWebhookAsync(string url, string? secretToken)
