@@ -38,6 +38,10 @@ public class WebhookService
                 return;
             }
 
+            // Get project information for webhook payload
+            var project = await context.Set<Project>()
+                .FirstOrDefaultAsync(p => p.IdProject == projectId);
+
             var payload = new
             {
                 @event = "error.created",
@@ -53,7 +57,8 @@ public class WebhookService
                 },
                 project = new
                 {
-                    id = projectId
+                    id = projectId,
+                    name = project?.Name ?? "Unknown Project"
                 }
             };
 
@@ -124,12 +129,17 @@ public class WebhookService
         var root = doc.RootElement;
         
         var error = root.GetProperty("error");
+        var project = root.GetProperty("project");
+        
         var errorId = error.GetProperty("id").GetString();
         var message = error.GetProperty("message").GetString();
         var stackTrace = error.TryGetProperty("stackTrace", out var st) ? st.GetString() : null;
         var summary = error.TryGetProperty("summary", out var sum) ? sum.GetString() : null;
         var status = error.GetProperty("status").GetString();
         var createdAt = error.GetProperty("createdAt").GetDateTime();
+        
+        var projectId = project.GetProperty("id").GetString();
+        var projectName = project.GetProperty("name").GetString();
         
         // Truncate stack trace for Discord (max 1024 chars per field)
         var truncatedStack = stackTrace?.Length > 1000 
@@ -143,11 +153,12 @@ public class WebhookService
             {
                 new
                 {
-                    title = "🚨 New Error Detected",
+                    title = $"🚨 New Error in {projectName}",
                     description = summary ?? message,
                     color = status == "Resolved" ? 3066993 : 15158332, // Green for resolved, red for new
                     fields = new[]
                     {
+                        new { name = "Project", value = (string?)$"**{projectName}**\n`{projectId}`", inline = false },
                         new { name = "Error Message", value = (string?)(message?.Length > 256 ? message.Substring(0, 253) + "..." : message), inline = false },
                         new { name = "Status", value = (string?)status, inline = true },
                         new { name = "Error ID", value = (string?)errorId, inline = true },
@@ -168,6 +179,8 @@ public class WebhookService
         var root = doc.RootElement;
         
         var error = root.GetProperty("error");
+        var project = root.GetProperty("project");
+        
         var errorId = error.GetProperty("id").GetString();
         var message = error.GetProperty("message").GetString();
         var stackTrace = error.TryGetProperty("stackTrace", out var st) ? st.GetString() : null;
@@ -175,13 +188,19 @@ public class WebhookService
         var status = error.GetProperty("status").GetString();
         var createdAt = error.GetProperty("createdAt").GetDateTime();
         
+        var projectId = project.GetProperty("id").GetString();
+        var projectName = project.GetProperty("name").GetString();
+        
         // Truncate for Telegram (max 4096 chars)
         var truncatedStack = stackTrace?.Length > 500 
             ? stackTrace.Substring(0, 500) + "..." 
             : stackTrace;
         
         // Create Telegram message format with markdown
-        var text = $@"🚨 *New Error Detected*
+        var text = $@"🚨 *New Error in {projectName}*
+
+*Project:* {projectName}
+*Project ID:* `{projectId}`
 
 *Error Message:* {message}
 *Status:* {status}

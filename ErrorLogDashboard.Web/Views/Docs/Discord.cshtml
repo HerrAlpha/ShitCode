@@ -74,11 +74,12 @@
     <p>When an error occurs, your Discord channel will receive a rich embed message containing:</p>
 
     <ul>
-        <li><strong>Title:</strong> 🚨 New Error Detected</li>
+        <li><strong>Title:</strong> 🚨 New Error in [Project Name]</li>
         <li><strong>Description:</strong> AI-generated summary of the error</li>
         <li><strong>Color:</strong> Red for new errors, green for resolved</li>
         <li><strong>Fields:</strong>
             <ul>
+                <li>Project Name and ID</li>
                 <li>Error Message</li>
                 <li>Status (Open/InProgress/Resolved)</li>
                 <li>Error ID (for tracking)</li>
@@ -93,7 +94,7 @@
 
     <div class="bg-gray-100 p-4 rounded-lg my-4">
         <div class="border-l-4 border-red-500 bg-white p-4 shadow">
-            <h4 class="text-lg font-bold text-gray-900">🚨 New Error Detected</h4>
+            <h4 class="text-lg font-bold text-gray-900">🚨 New Error in My Project</h4>
             <p class="text-gray-700 mt-2">NullReferenceException: Object reference not set to an instance</p>
             
             <div class="mt-4 grid grid-cols-2 gap-2">
