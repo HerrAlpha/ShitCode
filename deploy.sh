@@ -7,7 +7,7 @@
 # ============================================================
 SRC_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 APP_DIR="/var/www/shitcode"
-DOMAIN="shitcode.intaraai.com"
+DOMAIN="shit-code.com"
 EMAIL="admin@intaraai.com"
 DB_NAME="error_log_dashboard"
 DB_USER="root"
