@@ -8,8 +8,8 @@ builder.WebHost.UseUrls("http://0.0.0.0:5009");
 
 // Add services to the container.
 builder.Services.AddDbContext<ErrorLogDashboard.Web.Data.AppDbContext>(options =>
-    options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"),
-        new MySqlServerVersion(new Version(8, 0, 32))));
+    options.UseMySQL(builder.Configuration.GetConnectionString("DefaultConnection") 
+        ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.")));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
