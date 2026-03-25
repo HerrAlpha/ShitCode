@@ -2,10 +2,10 @@
 
 # ============================================================
 # PATHS — match your actual server layout
-# Source  : /Users/herralpha/Development/project/ShitCode
+# Source  : Dynamic (current script directory)
 # App out : /var/www/shitcode
 # ============================================================
-SRC_DIR="/Users/herralpha/Development/project/ShitCode"
+SRC_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 APP_DIR="/var/www/shitcode"
 DOMAIN="shitcode.intaraai.com"
 EMAIL="admin@intaraai.com"

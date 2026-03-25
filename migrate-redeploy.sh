@@ -12,7 +12,8 @@ echo -e "${GREEN}🔄 Starting migration and redeployment...${NC}"
 
 # 1. Apply Migrations
 echo -e "${GREEN}🔧 Step 1: Applying EF Core migrations...${NC}"
-cd /Users/herralpha/Development/project/ShitCode/ErrorLogDashboard.Web
+SRC_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "$SRC_DIR/ErrorLogDashboard.Web"
 dotnet ef database update
 
 if [ $? -ne 0 ]; then
